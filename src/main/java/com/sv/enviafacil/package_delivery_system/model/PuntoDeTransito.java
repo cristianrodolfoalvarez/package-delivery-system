@@ -3,7 +3,7 @@ package com.sv.enviafacil.package_delivery_system.model;
 import java.util.Date;
 
 public class PuntoDeTransito {
-	private Date fechaRecepcion;
+	private Date fechaRecepcion;//Aun pendiente si es lo mas conveniente guardarlo en formato date.
 	private Sucursal sucursalRecepcionTemporal;
 	
 	/**
