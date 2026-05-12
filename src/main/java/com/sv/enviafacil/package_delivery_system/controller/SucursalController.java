@@ -1,6 +1,7 @@
 package com.sv.enviafacil.package_delivery_system.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,6 +34,10 @@ public class SucursalController {
 	@DeleteMapping("/{id}")
 	public void borrarSucursal(@PathVariable int id) {
 		service.eliminarSucursal(id);
+	}
+	@GetMapping
+	public ResponseEntity<?> obtenerSucursales() {
+		return ResponseEntity.ok(this.service.listarTodas());
 	}
 
 }

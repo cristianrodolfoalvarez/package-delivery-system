@@ -32,6 +32,10 @@ public class SucursalRepository {
 	public void listarSucursales() {
 		this.sucursales.forEach(s -> System.out.println(s.toString()));
 	}
+	
+	public List<Sucursal> obtenerTodas() {
+		return new ArrayList<>(sucursales);//Enviamos una copia.
+	}
 
 	public Optional<Sucursal> buscarSucursal(int id) {
 		//final int posicion = this.buscarPorId(id) != -1? 1:0 ;
@@ -39,7 +43,7 @@ public class SucursalRepository {
 		return this.sucursales.stream().filter(s -> s.getId() == id).findFirst();
 		
 	}
-	public void eliminarSucursal(int id) {
+	public void eliminarSucursal(int id) {//Pendiente saber si el borrado sera de la db o solo borrado logico.
 		int idExiste = buscarPorId(id);
 		System.out.println("entra y el id existente es: "+idExiste);
 		this.sucursales.remove(idExiste);
