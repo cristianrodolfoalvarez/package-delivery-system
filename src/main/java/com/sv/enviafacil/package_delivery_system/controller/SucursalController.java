@@ -21,6 +21,7 @@ public class SucursalController {
 	@Autowired
 	SucursalService service;
 
+	//Queda pendiente mandar como respuesta cuando los campos esten vacios, un mensaje personalizado.
 	@PostMapping
 	public void crearSucursal(@Valid @RequestBody SucursalCreateRequest sucursal) {
 		// System.out.println(sucursal.toString());
