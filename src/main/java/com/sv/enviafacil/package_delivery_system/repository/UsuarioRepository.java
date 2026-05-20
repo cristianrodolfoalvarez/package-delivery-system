@@ -37,7 +37,7 @@ public class UsuarioRepository {
 	}
 	
 	public void listarUsuarios() {
-		this.usuarios.forEach(s -> System.out.println("ID:"+s.getId()+"\tNombre:"+s.getNombreUsuario()+"\tcontrasena:"+s.getContrasena()+"\tcorreo: "+s.getMail()));
+		this.usuarios.forEach(s -> System.out.println("ID:"+s.getId()+"\tNombre:"+s.getNombreUsuario()+"\tcontrasena:"+s.getContrasena()+"\tcorreo: "+s.getMail()+"\tRol:"+s.getRol()));
 	}
 	
 	//Se debe validar el mail, que no exista tambien.
