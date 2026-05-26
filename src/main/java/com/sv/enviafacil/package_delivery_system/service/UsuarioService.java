@@ -21,11 +21,15 @@ public class UsuarioService {
 	}
 
 	public void crearUsuario(UsuarioCreateRequest nuevoUsuario) {
-		Usuario usuario = new Usuario(nuevoUsuario.correo(), convertirRolUsuario(nuevoUsuario.rol()), nuevoUsuario.nombre(), nuevoUsuario.contrasena(),
-				"JWTOKEN");
+		Usuario usuario = new Usuario(nuevoUsuario.correo(), convertirRolUsuario(nuevoUsuario.rol()),
+				nuevoUsuario.nombre(), nuevoUsuario.contrasena(), "JWTOKEN");
 		if (!verificarNoDuplicidadCorreo(nuevoUsuario.correo()))
-			throw new ExcepcionPersonalizada("correo", "El correo electrónico ya está en uso.");//System.out.println("correo electronico y/o nombre de usuario no disponible");
-		if (!verificarNoDuplicidadNombreUsuario(nuevoUsuario.nombre()))throw new ExcepcionPersonalizada("nombre_usuario", "El nombre de usuario ya está en uso.");
+			throw new ExcepcionPersonalizada("correo", "El correo electrónico ya está en uso.");// System.out.println("correo
+																								// electronico y/o
+																								// nombre de usuario no
+																								// disponible");
+		if (!verificarNoDuplicidadNombreUsuario(nuevoUsuario.nombre()))
+			throw new ExcepcionPersonalizada("nombre_usuario", "El nombre de usuario ya está en uso.");
 		usuarioRepository.guardarUsuario(usuario);
 		usuarioRepository.listarUsuarios();
 	}
@@ -36,28 +40,32 @@ public class UsuarioService {
 		Usuario usuario = this.usuarioRepository.obtenerUsuario(modificadoUsuario.id()).get();
 		if (usuario == null) {
 			System.out.println("no existe ese id de usuario");
-		} 
-		if (usuario.getContrasena().equals(modificadoUsuario.contrasena())){
-			System.out.println("antigua: "+usuario.getContrasena()+"enviada x cliente:"+modificadoUsuario.contrasena());
+		}
+		if (usuario.getContrasena().equals(modificadoUsuario.contrasena())) {
+			System.out.println(
+					"antigua: " + usuario.getContrasena() + "enviada x cliente:" + modificadoUsuario.contrasena());
 			if (verificarNoDuplicidadCorreo(modificadoUsuario.correo()))
 				usuario.setMail(modificadoUsuario.correo());
 			else
-				throw new RuntimeException("Email ya registrado");//System.out.println("correo ya existente");
+				throw new RuntimeException("Email ya registrado");// System.out.println("correo ya existente");
 			if (verificarNoDuplicidadNombreUsuario(modificadoUsuario.nombre()))
 				usuario.setNombreUsuario(modificadoUsuario.nombre());
 			else
-				throw new RuntimeException("Nombre de usuario ya registrado");//System.out.println("Nombre de usuario ya existente");
-			if(modificadoUsuario.nuevaContrasena()!= null)
+				throw new RuntimeException("Nombre de usuario ya registrado");// System.out.println("Nombre de usuario
+																				// ya existente");
+			if (modificadoUsuario.nuevaContrasena() != null)
 				usuario.setContrasena(modificadoUsuario.nuevaContrasena());
-			if(modificadoUsuario.rol()!= null) usuario.setRol(convertirRolUsuario(modificadoUsuario.rol()));
+			if (modificadoUsuario.rol() != null)
+				usuario.setRol(convertirRolUsuario(modificadoUsuario.rol()));
 			this.usuarioRepository.guardarUsuario(usuario);
 		}
 		usuarioRepository.listarUsuarios();
 		// en patch se debe devolver el recurso modificado.
 	}
-	
+
 	public void eliminarUsuarioLogico() {
-		//pendiente agregar attr rol y si esta activo el usuario para poder hacer eliminacion logica.
+		// pendiente agregar attr rol y si esta activo el usuario para poder hacer
+		// eliminacion logica.
 	}
 
 	private boolean verificarNoDuplicidadCorreo(String nuevoCorreo) {
@@ -76,13 +84,13 @@ public class UsuarioService {
 			return false;
 		return true;
 	}
-	
+
 	private RolUsuario convertirRolUsuario(String rol) {
 		try {
 			return RolUsuario.valueOf(rol.toUpperCase());
-		}
-		catch(IllegalArgumentException e) {
-            throw new ExcepcionPersonalizada("Rol de empleado inválido: ",". Valores válidos: " + Arrays.toString(RolUsuario.values()));
+		} catch (IllegalArgumentException e) {
+			throw new ExcepcionPersonalizada("Rol de empleado inválido: ",
+					". Valores válidos: " + Arrays.toString(RolUsuario.values()));
 		}
 	}
 }

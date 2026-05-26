@@ -8,28 +8,31 @@ public class Cliente {
 	private String nombres;
 	private String apellidos;
 	private String telefono;
-	private String direccion;
-	private static IdGenerator idGenerator;//Clase provisional generadora de ids porque aun no se ha conectado con una db.
+	private String dui;
+	private boolean activo;
+	private static IdGenerator idGenerator = new IdGenerator();//Clase provisional generadora de ids porque aun no se ha conectado con una db.
 	/**
 	 * @param correo
 	 * @param nombres
 	 * @param apellidos
 	 * @param telefono
-	 * @param direccion
+	 * @param dui
 	 */
-	public Cliente(String correo, String nombres, String apellidos, String telefono, String direccion) {
+	//se debe agregar un atributo para cambiar de estado cuando se solicite eliminar y cambiar ese attr a false;
+	public Cliente(String correo, String nombres, String apellidos, String telefono, String dui, boolean activo) {
 		super();
 		this.id = idGenerator.generarNuevoUltimoId();
 		this.correo = correo;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
 		this.telefono = telefono;
-		this.direccion = direccion;//Posiblemente direccion tambien podria ser una clase independiente, debido a que una direccion se divide en calles, avenidas, pasaje, etc.
+		this.dui = dui;//Posiblemente direccion tambien podria ser una clase independiente, debido a que una direccion se divide en calles, avenidas, pasaje, etc.
+		
 	}
-	public String getcorreo() {
+	public String getCorreo() {
 		return correo;
 	}
-	public void setcorreo(String correo) {
+	public void setCorreo(String correo) {
 		this.correo = correo;
 	}
 	public String getNombres() {
@@ -50,14 +53,26 @@ public class Cliente {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
-	public String getDireccion() {
-		return direccion;
+	public String getDui() {
+		return dui;
 	}
-	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+	public void setDui(String direccion) {
+		this.dui = direccion;
 	}
 	public int getId() {
 		return id;
+	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", correo=" + correo + ", nombres=" + nombres + ", apellidos=" + apellidos
+				+ ", telefono=" + telefono + ", dui=" + dui + "]";
 	}
 	
 }
