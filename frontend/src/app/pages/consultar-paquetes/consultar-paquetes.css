@@ -1,0 +1,65 @@
+.consulta-container{
+width:90%;
+max-width:1300px;
+margin:30px auto;
+background:white;
+padding:30px;
+border-radius:15px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.consulta-container h1{
+text-align:center;
+margin-bottom:25px;
+color:#1f2f4a;
+}
+
+.busqueda{
+display:flex;
+gap:10px;
+margin-bottom:20px;
+}
+
+.busqueda input{
+flex:1;
+padding:12px;
+}
+
+.busqueda button{
+width:120px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#1f2f4a;
+color:white;
+}
+
+th,
+td{
+border:1px solid #ddd;
+padding:12px;
+text-align:center;
+}
+
+select{
+width:170px;
+padding:8px;
+}
+
+button{
+background:#2f63e0;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.guardar{
+margin-top:20px;
+}
