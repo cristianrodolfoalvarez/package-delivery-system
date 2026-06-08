@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import com.sv.enviafacil.package_delivery_system.model.Cliente;
+import com.sv.enviafacil.package_delivery_system.utils.MisValidadores;
 
 @Repository
 public class ClienteRepository {
@@ -15,6 +16,21 @@ public class ClienteRepository {
 	public Optional<Cliente> buscarPorId(int id) {
 		Optional<Cliente> cliente = this.clientes.stream().filter(c -> c.getId() == id).findFirst();
 		return cliente;// puede retornar un optional vacio.
+	}
+	
+	public Optional<Cliente> buscarPorTelefono(String telefono){
+		Optional<Cliente> cliente = this.clientes.stream().filter(c->c.getTelefono().equals(telefono)).findFirst();
+		return cliente;
+	}
+	
+	public Optional<Cliente> buscarPorDUI(String dui){
+		Optional<Cliente> cliente = this.clientes.stream().filter(c->c.getDui().equals(dui)).findFirst();
+		return cliente;
+	}
+	
+	public Optional<Cliente> buscarPorCorreo(String correo){
+		Optional<Cliente> cliente = this.clientes.stream().filter(c->c.getCorreo().equals(correo)).findFirst();
+		return cliente;
 	}
 
 	public boolean guardarCliente(Cliente cliente) {
