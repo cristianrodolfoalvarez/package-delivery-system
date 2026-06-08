@@ -16,10 +16,11 @@ import com.sv.enviafacil.package_delivery_system.utils.MisValidadores;
 @Service
 public class ClientesServiceImpl implements ClientesService {
 	private ClienteRepository clienteRepository;
-	
+
 	public ClientesServiceImpl(ClienteRepository clienteRepository) {
 		this.clienteRepository = clienteRepository;
 	}
+
 	@Override
 	public Cliente buscarClientePorNombre(String nombres, String apellidos) {
 		// TODO Auto-generated method stub
@@ -34,27 +35,43 @@ public class ClientesServiceImpl implements ClientesService {
 
 	@Override
 	public void crearCliente(ClienteCreateRequest nuevoCliente) {
-		if (!MisValidadores.esDuiValido(nuevoCliente.dui()))
-			throw new ExcepcionPersonalizada("dui", "El número de DUI no es un número válido.");
-		if(!MisValidadores.esTelefonoLocalValido(nuevoCliente.telefono()))
-			throw new ExcepcionPersonalizada("telefono", "El número de telefono no es un número válido.");
-		Cliente cliente = new Cliente(nuevoCliente.correo(), nuevoCliente.nombres(), nuevoCliente.apellidos(),
-				nuevoCliente.telefono(), nuevoCliente.dui(),nuevoCliente.activo());
-		this.clienteRepository.guardarCliente(cliente);
-		//return cliente;
+		if (validarInfoCliente(nuevoCliente)) {
+			Cliente cliente = new Cliente(nuevoCliente.correo(), nuevoCliente.nombres(), nuevoCliente.apellidos(),
+					nuevoCliente.telefono(), nuevoCliente.dui(), nuevoCliente.activo());
+			this.clienteRepository.guardarCliente(cliente);
+		}
+		// return cliente;
 	}
+
 	@Override
 	public void modificarCliente(ClienteUpdateRequest nuevoCliente) {
 		Cliente cliente = clienteRepository.buscarPorId(nuevoCliente.id()).orElse(null);
-		if (cliente == null)throw new ExcepcionPersonalizada("id", "El cliente no fue encontrado.");
-		else System.out.println("si se encontro el cliente");
-		
+		if (cliente == null)
+			throw new ExcepcionPersonalizada("id", "El cliente no fue encontrado.");
+		else
+			System.out.println("si se encontró el cliente");
+
 	}
+
 	@Override
 	public void eliminarCliente(int id) {
-		
+		if (!this.clienteRepository.eliminarCliente(id))
+			throw new ExcepcionPersonalizada("error", "Ocurrió un error a la hora de eliminar.");
 	}
-	
+
+	private boolean validarInfoCliente(ClienteCreateRequest nuevoCliente) {
+		if (!MisValidadores.esDuiValido(nuevoCliente.dui()))
+			throw new ExcepcionPersonalizada("dui", "El número de DUI no es un número válido.");
+		if (!MisValidadores.esTelefonoLocalValido(nuevoCliente.telefono()))
+			throw new ExcepcionPersonalizada("telefono", "El número de telefono no es un número válido.");
+		if (!clienteRepository.buscarPorDUI(nuevoCliente.dui()).isEmpty())
+			throw new ExcepcionPersonalizada("dui", "El número de DUI ya está registrado.");
+		if (!clienteRepository.buscarPorTelefono(nuevoCliente.telefono()).isEmpty())
+			throw new ExcepcionPersonalizada("telefono", "El número de teléfono ya está registrado.");
+		if (!clienteRepository.buscarPorCorreo(nuevoCliente.correo()).isEmpty())
+			throw new ExcepcionPersonalizada("correo", "El correo electrónico ya está registrado.");
+		return true;
+	}
 	/*
 	 * private RolCliente convertirRolCliente(String rol) { try { return
 	 * RolCliente.valueOf(rol.toUpperCase()); } catch (IllegalArgumentException e) {

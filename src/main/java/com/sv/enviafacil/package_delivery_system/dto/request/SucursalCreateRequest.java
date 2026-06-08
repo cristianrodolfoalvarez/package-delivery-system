@@ -7,4 +7,4 @@ import jakarta.validation.constraints.Pattern;
 public record SucursalCreateRequest(@NotBlank(message = "El nombre es obligatorio") String nombre,
 		@NotBlank String direccion,
 		@NotBlank @Pattern(regexp = "\\d{4}-\\d{4}", message = "Telefono no valido") String telefono) {
-}
+}//AGREGAR CORREO ELECTRONICO
