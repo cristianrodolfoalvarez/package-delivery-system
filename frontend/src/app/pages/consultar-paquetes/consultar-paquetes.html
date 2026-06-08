@@ -1,0 +1,105 @@
+<div class="consulta-container">
+
+<!-- Formulario de búsqueda de paquetes -->
+<h1>Consulta de Paquetes</h1>
+
+<div class="busqueda">
+    <input type="text" placeholder="Buscar por código de seguimiento">
+    <button>Buscar</button>
+</div>
+
+<table>
+
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Remitente</th>
+            <th>Destinatario</th>
+            <th>Estado</th>
+            <th>Ubicación Actual</th>
+            <th>Próximo Destino</th>
+            <th>Observación</th>
+            <th>Actualizar Estado</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr>
+
+            <td>ENV-0001</td>
+            <td>Juan Pérez</td>
+            <td>María López</td>
+
+            <td>En Ruta</td>
+
+            <td>Santa Ana</td>
+
+            <td>Ahuachapán</td>
+
+            <td>
+                Llegó a escala en Santa Ana.
+                Salida programada para mañana.
+            </td>
+
+            <td>
+                <select>
+                    <option>Pendiente</option>
+                    <option selected>En Ruta</option>
+                    <option>Llegó a Escala</option>
+                    <option>Disponible para Retiro</option>
+                    <option>Entregado</option>
+                </select>
+            </td>
+
+        </tr>
+
+        <tr>
+
+            <td>ENV-0002</td>
+            <td>Carlos Ruiz</td>
+            <td>Ana García</td>
+
+            <td>Pendiente</td>
+
+            <td>Sucursal Central</td>
+
+            <td>Santa Ana</td>
+
+            <td>
+                Paquete recibido.
+                Pendiente de despacho.
+            </td>
+
+            <td>
+                <select>
+                    <option selected>Pendiente</option>
+                    <option>En Ruta</option>
+                    <option>Llegó a Escala</option>
+                    <option>Disponible para Retiro</option>
+                    <option>Entregado</option>
+                </select>
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+
+<br>
+
+<button class="guardar">
+    Guardar Cambios
+</button>
+
+<br><br>
+
+<a href="/">
+    <button>
+        Volver al Inicio
+    </button>
+</a>
+```
+
+</div>

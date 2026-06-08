@@ -1,0 +1,71 @@
+<div class="paquete-container">
+
+    <h1>Registro de Paquete</h1>
+
+    <form>
+
+        <h3>Remitente</h3>
+
+        <label>DUI o Teléfono</label>
+
+        <div class="busqueda">
+            <input type="text" placeholder="Ingrese DUI o Teléfono">
+            <button type="button">Buscar</button>
+        </div>
+
+        <label>Nombre del Remitente</label>
+        <input type="text" readonly placeholder="Nombre encontrado">
+
+        <hr>
+
+        <h3>Destinatario</h3>
+
+        <label>DUI o Teléfono</label>
+
+        <div class="busqueda">
+            <input type="text" placeholder="Ingrese DUI o Teléfono">
+            <button type="button">Buscar</button>
+        </div>
+
+        <label>Nombre del Destinatario</label>
+        <input type="text" readonly placeholder="Nombre encontrado">
+
+        <hr>
+
+        <label>Sucursal Origen</label>
+        <select>
+            <option>Seleccione una sucursal</option>
+        </select>
+
+        <label>Sucursal Destino</label>
+        <select>
+            <option>Seleccione una sucursal</option>
+        </select>
+
+        <label>Descripción del Paquete</label>
+        <textarea rows="4"
+            placeholder="Describa el contenido del paquete"></textarea>
+
+        <label>Peso (Kg)</label>
+        <input type="number" step="0.01" placeholder="0.00">
+
+        <label>Estado</label>
+        <select>
+            <option>Pendiente</option>
+            <option>En Ruta</option>
+            <option>Entregado</option>
+        </select>
+
+        <button type="submit">
+            Guardar Paquete
+        </button>
+
+    </form>
+
+    <a href="/">
+        <button type="button" class="btn-volver">
+            Volver al Inicio
+        </button>
+    </a>
+
+</div>
