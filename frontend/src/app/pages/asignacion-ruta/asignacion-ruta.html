@@ -1,0 +1,71 @@
+<div class="ruta-container">
+
+    <h1>Asignación de Ruta</h1>
+
+    <form>
+
+        <label>Código de Paquete</label>
+
+        <div class="busqueda">
+            <input type="text" placeholder="ENV-0001">
+            <button type="button">Buscar</button>
+        </div>
+
+        <label>Fecha de Salida</label>
+        <input type="date">
+
+        <label>¿Lleva Escala?</label>
+        <select>
+            <option>No</option>
+            <option>Sí</option>
+        </select>
+
+        <label>Punto de Tránsito</label>
+        <select>
+            <option>Seleccione una sucursal</option>
+            <option>Santa Ana</option>
+            <option>Sonsonate</option>
+            <option>San Miguel</option>
+        </select>
+
+        <label>Fecha Estimada Llegada a Escala</label>
+        <input type="date">
+
+        <label>Sucursal Destino</label>
+        <select>
+            <option>Seleccione destino</option>
+            <option>Ahuachapán</option>
+            <option>Usulután</option>
+            <option>La Unión</option>
+        </select>
+
+        <label>Fecha Estimada de Entrega</label>
+        <input type="date">
+
+        <label>Piloto</label>
+        <input type="text" placeholder="Nombre del piloto">
+
+        <label>Vehículo</label>
+        <input type="text" placeholder="Placa o identificación">
+
+        <label>Número de Ruta</label>
+        <input type="text" placeholder="RUTA-0001">
+
+        <label>Observaciones</label>
+        <textarea rows="4"></textarea>
+
+      <button type="submit">
+    Asignar Ruta
+</button>
+
+<br>
+
+<a routerLink="/">
+    <button type="button" class="volver">
+        Volver al Menú Principal
+    </button>
+</a>
+
+    </form>
+
+</div>
