@@ -1,107 +1,85 @@
 <div class="consulta-container">
 
-<!-- Formulario de búsqueda de paquetes -->
-<h1>Consulta de Paquetes</h1>
+    <h1>Seguimiento de Paquetes</h1>
 
-<div class="busqueda">
-    <input type="text" placeholder="Buscar por código de seguimiento">
-    <button>Buscar</button>
-</div>
+    <div class="busqueda">
+        <input type="text" placeholder="Buscar por código de seguimiento">
+        <button type="button">Buscar</button>
+    </div>
 
-<table>
-<!-- menu principa -->
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Remitente</th>
-            <th>Destinatario</th>
-            <th>Estado</th>
-            <th>Ubicación Actual</th>
-            <th>Próximo Destino</th>
-            <th>Observación</th>
-            <th>Actualizar Estado</th>
-        </tr>
-    </thead>
+    <table>
 
-    <tbody>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Remitente</th>
+                <th>Destinatario</th>
+                <th>Estado del Envío</th>
+                <th>Ubicación Actual</th>
+                <th>Próximo Destino</th>
+                <th>Observación</th>
+                <th>Actualizar Estado</th>
+            </tr>
+        </thead>
 
-        <tr>
+        <tbody>
 
-            <td>ENV-0001</td>
-            <td>Juan Pérez</td>
-            <td>María López</td>
+            <tr>
+                <td>ENV-0001</td>
+                <td>Juan Pérez</td>
+                <td>María López</td>
+                <td>En Tránsito</td>
+                <td>Santa Ana</td>
+                <td>Ahuachapán</td>
+                <td>Llegó a escala en Santa Ana. Salida programada para mañana.</td>
 
-            <td>En Ruta</td>
+                <td>
+                    <select>
+                        <option>Pendiente de Asignación</option>
+                        <option>Ruta Asignada</option>
+                        <option selected>En Tránsito</option>
+                        <option>En Sucursal Destino</option>
+                        <option>Entregado</option>
+                        <option>Incidencia</option>
+                    </select>
+                </td>
+            </tr>
 
-            <td>Santa Ana</td>
+            <tr>
+                <td>ENV-0002</td>
+                <td>Carlos Ruiz</td>
+                <td>Ana García</td>
+                <td>Pendiente de Asignación</td>
+                <td>Sucursal Central</td>
+                <td>Santa Ana</td>
+                <td>Paquete recibido. Pendiente de asignación de ruta.</td>
 
-            <td>Ahuachapán</td>
+                <td>
+                    <select>
+                        <option selected>Pendiente de Asignación</option>
+                        <option>Ruta Asignada</option>
+                        <option>En Tránsito</option>
+                        <option>En Sucursal Destino</option>
+                        <option>Entregado</option>
+                        <option>Incidencia</option>
+                    </select>
+                </td>
+            </tr>
 
-            <td>
-                Llegó a escala en Santa Ana.
-                Salida programada para mañana.
-            </td>
+        </tbody>
 
-            <td>
-                <select>
-                    <option>Pendiente</option>
-                    <option selected>En Ruta</option>
-                    <option>Llegó a Escala</option>
-                    <option>Disponible para Retiro</option>
-                    <option>Entregado</option>
-                      <option>Anulado</option>
-                </select>
-            </td>
+    </table>
 
-        </tr>
+    <br>
 
-        <tr>
-
-            <td>ENV-0002</td>
-            <td>Carlos Ruiz</td>
-            <td>Ana García</td>
-
-            <td>Pendiente</td>
-
-            <td>Sucursal Central</td>
-
-            <td>Santa Ana</td>
-
-            <td>
-                Paquete recibido.
-                Pendiente de despacho.
-            </td>
-
-            <td>
-                <select>
-                    <option selected>Pendiente</option>
-                    <option>En Ruta</option>
-                    <option>Llegó a Escala</option>
-                    <option>Disponible para Retiro</option>
-                    <option>Entregado</option>
-                    <option>Anulado</option>
-                </select>
-            </td>
-
-        </tr>
-
-    </tbody>
-
-</table>
-
-<br>
-
-<button class="guardar">
-    Guardar Cambios
-</button>
-
-<br><br>
-
-<a href="/">
-    <button>
-        Volver al Inicio
+    <button type="button">
+        Guardar Cambios
     </button>
-</a>
 
+    <br><br>
+
+    <a href="/inicio" class="btn-volver">
+        Volver al Menú Principal
+    </a>
 
 </div>
