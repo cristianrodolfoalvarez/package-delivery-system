@@ -39,6 +39,9 @@ body {
   gap: 20px;
   padding: 30px;
 }
+span .error{
+  color: red;
+}
 
 .card {
   background: white;

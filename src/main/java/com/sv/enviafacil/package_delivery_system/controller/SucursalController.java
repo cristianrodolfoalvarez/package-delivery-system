@@ -1,5 +1,7 @@
 package com.sv.enviafacil.package_delivery_system.controller;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,24 +23,34 @@ public class SucursalController {
 	@Autowired
 	SucursalService service;
 
-	//Queda pendiente mandar como respuesta cuando los campos esten vacios, un mensaje personalizado.
+	// Queda pendiente mandar como respuesta cuando los campos esten vacios, un
+	// mensaje personalizado.
 	@PostMapping
 	public void crearSucursal(@Valid @RequestBody SucursalCreateRequest sucursal) {
 		// System.out.println(sucursal.toString());
-		//service = new SucursalServiceImpl();
+		// service = new SucursalServiceImpl();
 		service.crearSucursal(sucursal);
 	}
+
 	@GetMapping("/{id}")
 	public void buscarSucursalPorId(@PathVariable int id) {
 		System.out.println(service.buscarSucursalPorId(id));
 	}
+
 	@DeleteMapping("/{id}")
 	public void borrarSucursal(@PathVariable int id) {
 		service.eliminarSucursal(id);
 	}
+
 	@GetMapping
 	public ResponseEntity<?> obtenerSucursales() {
 		return ResponseEntity.ok(this.service.listarTodas());
+	}
+
+	@GetMapping("/disponibles")
+	public ResponseEntity<HashMap<Integer, String>> obtenerSucursalesDisponibles() {
+		HashMap<Integer, String> sucursales = this.service.obtenerSucursalesDisponibles();
+		return ResponseEntity.ok(sucursales);
 	}
 
 }

@@ -24,6 +24,9 @@ form{
     gap:15px;
 }
 
+span{
+    color: red;
+}
 label{
     font-weight:bold;
 }
