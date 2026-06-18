@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+// Componente encargado de mostrar la consulta y seguimiento de paquetes
+
 @Component({
   selector: 'app-consultar-paquetes',
   standalone: true,

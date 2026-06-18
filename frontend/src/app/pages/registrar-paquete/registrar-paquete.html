@@ -107,6 +107,12 @@
             </div>
         }
 
+        <label>Cantidad de Paquetes</label>
+<input type="number" min="1" value="1" placeholder="Cantidad de paquetes">
+
+<label>Costo por Paquete ($)</label>
+<input type="number" value="4.00" readonly> 
+
         <label>Estado</label>
         <select formControlName="estado">
             <option value="Pendiente">Pendiente</option>
@@ -128,4 +134,9 @@
             </button>
         </div>
     </form>
+
+  <a href="/inicio" class="btn-volver">
+    Volver al Menú Principal
+</a>
+
 </div>

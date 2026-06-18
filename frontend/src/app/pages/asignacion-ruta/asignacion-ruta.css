@@ -1,61 +1,66 @@
-.sucursal-container{
+.ruta-container{
     max-width:700px;
     margin:40px auto;
     background:white;
     padding:30px;
     border-radius:12px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-.sucursal-container h1{
+.ruta-container h1{
     text-align:center;
+    margin-bottom:20px;
     color:#1f2f4a;
 }
 
 form{
     display:flex;
     flex-direction:column;
-    gap:15px;
+}
+
+label{
+    margin-top:12px;
+    margin-bottom:5px;
+    font-weight:bold;
 }
 
 input,
+select,
 textarea{
     padding:10px;
     border:1px solid #ccc;
     border-radius:6px;
 }
 
+.busqueda{
+    display:flex;
+    gap:10px;
+}
+
+.busqueda input{
+    flex:1;
+}
+
 button{
+    margin-top:20px;
     background:#2f63e0;
     color:white;
     border:none;
     padding:12px;
-    border-radius:8px;
+    border-radius:6px;
     cursor:pointer;
 }
-.btn-volver{
+.btn-menu{
     display: inline-block;
     margin-top: 20px;
     padding: 12px 20px;
     background-color: #3867d6;
-    color: white !important;
-    text-decoration: none !important;
+    color: white;
+    text-decoration: none;
     border-radius: 5px;
-    text-align: center;
     font-size: 16px;
-    cursor: pointer;
 }
 
-.btn-volver:hover{
+.btn-menu:hover{
     background-color: #274b9f;
-}
-select{
-    width: 100%;
-    padding: 12px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    box-sizing: border-box;
 }
