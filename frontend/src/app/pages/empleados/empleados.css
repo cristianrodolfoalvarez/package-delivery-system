@@ -1,57 +1,102 @@
+body{
+    background: linear-gradient(135deg, #4facfe, #00c6fb);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 .empleado-container{
-    max-width:600px;
-    margin:40px auto;
-    background:white;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    max-width: 700px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    animation: aparecer 0.5s ease;
 }
 
 .empleado-container h1{
-    text-align:center;
-    margin-bottom:20px;
-    color:#1f2f4a;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #1f2f4a;
+    font-size: 34px;
+    font-weight: bold;
 }
 
 form{
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 label{
-    margin-top:12px;
-    margin-bottom:5px;
-    font-weight:bold;
+    font-weight: 600;
+    color: #2d3436;
+    font-size: 15px;
 }
 
 input,
 select{
-    padding:10px;
-    border:1px solid #ccc;
-    border-radius:6px;
+    padding: 14px;
+    border: 2px solid #dfe6e9;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+input:focus,
+select:focus{
+    border-color: #00a8ff;
+    outline: none;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,168,255,0.25);
 }
 
 button{
-    margin-top:20px;
-    background:#2f63e0;
-    color:white;
-    border:none;
-    padding:12px;
-    border-radius:6px;
-    cursor:pointer;
+    margin-top: 15px;
+    background: linear-gradient(135deg, #3867d6, #4b7bec);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
+
+button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(56,103,214,0.3);
+}
+
 .btn-volver{
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 20px;
-    background-color: #3867d6;
+    display: block;
+    margin-top: 12px;
+    padding: 14px;
+    background: linear-gradient(135deg, #20bf6b, #26de81);
     color: white !important;
     text-decoration: none !important;
-    border-radius: 5px;
+    border-radius: 10px;
     text-align: center;
     font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 .btn-volver:hover{
-    background-color: #274b9f;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(38,222,129,0.3);
+}
+
+@keyframes aparecer{
+    from{
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

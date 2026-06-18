@@ -1,93 +1,144 @@
+body{
+    background: linear-gradient(135deg, #4facfe, #00c6fb);
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 .paquete-container{
-    max-width:800px;
-    margin:40px auto;
-    background:white;
-    padding:30px;
-    border-radius:12px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    animation: aparecer 0.5s ease;
 }
 
 .paquete-container h1{
-    text-align:center;
-    color:#1f2f4a;
-    margin-bottom:25px;
+    text-align: center;
+    color: #1f2f4a;
+    margin-bottom: 30px;
+    font-size: 36px;
+    font-weight: bold;
 }
 
 .paquete-container h3{
-    color:#2f63e0;
-    margin-top:20px;
+    background: linear-gradient(135deg, #3867d6, #4b7bec);
+    color: white;
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 18px;
 }
 
 form{
-    display:flex;
-    flex-direction:column;
-    gap:15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 span{
     color: red;
 }
 label{
-    font-weight:bold;
+    font-weight: 600;
+    color: #2d3436;
 }
 
 input,
 select,
 textarea{
-    padding:10px;
-    border:1px solid #ccc;
-    border-radius:6px;
-    font-size:14px;
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #dfe6e9;
+    border-radius: 10px;
+    font-size: 15px;
+    background: #fafafa;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color: #00a8ff;
+    background: white;
+    outline: none;
+    box-shadow: 0 0 10px rgba(0,168,255,0.25);
+}
+
+textarea{
+    min-height: 100px;
+    resize: vertical;
 }
 
 .busqueda{
-    display:flex;
-    gap:10px;
+    display: flex;
+    gap: 10px;
 }
 
 .busqueda input{
-    flex:1;
+    flex: 1;
 }
 
 .busqueda button{
-    width:120px;
+    width: 140px;
 }
 
 button{
-    background:#2f63e0;
-    color:white;
-    border:none;
-    padding:12px;
-    border-radius:8px;
-    cursor:pointer;
+    background: linear-gradient(135deg, #3867d6, #4b7bec);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
 button:hover{
-    background:#244db0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(56,103,214,0.3);
 }
 
 .btn-volver{
-    margin-top:15px;
-    width:100%;
-}
-
-hr{
-    margin:20px 0;
-}
-
-.btn-volver{
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 20px;
-    background-color: #3867d6;
+    display: block;
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    background: linear-gradient(135deg, #20bf6b, #26de81);
     color: white !important;
     text-decoration: none !important;
-    border-radius: 5px;
+    border-radius: 10px;
     text-align: center;
     font-size: 16px;
-    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .btn-volver:hover{
-    background-color: #274b9f;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(38,222,129,0.3);
+}
+
+hr{
+    border: none;
+    height: 2px;
+    background: #e9ecef;
+    margin: 25px 0;
+}
+
+@keyframes aparecer{
+    from{
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
