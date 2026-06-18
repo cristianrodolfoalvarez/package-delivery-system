@@ -1,91 +1,134 @@
 package com.sv.enviafacil.package_delivery_system.model;
 
-//import java.math.BigDecimal;
-
 import com.sv.enviafacil.package_delivery_system.model.enums.EstadoPaquete;
 
 public class Paquete {
 
-	private int id;
-	private EstadoPaquete estado;
-	private int peso;
-	private String descripcion;
-	private InformacionDeEnvio envio;
-	private Itinerario itinerario;
-	private static int ultimoId = 0;
-	
+    private int id;
+    private EstadoPaquete estado;
+    private int peso;
+    private String descripcion;
+    private InformacionDeEnvio envio;
+    private Itinerario itinerario;
+    private Cliente remitente;
+    private Cliente destinatario;
+    private static int ultimoId = 0;
 
-	/**
-	 * @param estado
-	 * @param peso
-	 */
-	public Paquete(EstadoPaquete estado, int peso, String descripcion) {
-		super();
-		this.id = Paquete.generarNuevoUltimoId();
-		this.estado = estado;
-		this.peso = peso;
-		this.descripcion = descripcion;
-	}
-	
-	private static int generarNuevoUltimoId() {
-		return Paquete.ultimoId <= 0? 1 : ++ultimoId; 
-	}
+    /**
+     * Constructor para crear un nuevo paquete
+     * @param estado Estado inicial del paquete
+     * @param peso Peso en kg
+     * @param descripcion Descripción del contenido
+     */
+    public Paquete(EstadoPaquete estado, int peso, String descripcion) {
+        super();
+        this.id = Paquete.generarNuevoUltimoId();
+        this.estado = estado;
+        this.peso = peso;
+        this.descripcion = descripcion;
+    }
 
-	public int getId() {
-		return id;
-	}
+    /**
+     * Constructor completo
+     */
+    public Paquete(EstadoPaquete estado, int peso, String descripcion, 
+                   Cliente remitente, Cliente destinatario) {
+        this.id = Paquete.generarNuevoUltimoId();
+        this.estado = estado;
+        this.peso = peso;
+        this.descripcion = descripcion;
+        this.remitente = remitente;
+        this.destinatario = destinatario;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    private static int generarNuevoUltimoId() {
+        return Paquete.ultimoId <= 0 ? 1 : ++ultimoId;
+    }
 
-	public EstadoPaquete getEstado() {
-		return estado;
-	}
+    // Getters y Setters
+    public int getId() {
+        return id;
+    }
 
-	public void setEstado(EstadoPaquete estado) {
-		this.estado = estado;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public int getPeso() {
-		return peso;
-	}
+    public EstadoPaquete getEstado() {
+        return estado;
+    }
 
-	public void setPeso(int peso) {
-		this.peso = peso;
-	}
+    public void setEstado(EstadoPaquete estado) {
+        this.estado = estado;
+    }
 
-	public String getDescripcion() {
-		return descripcion;
-	}
+    public int getPeso() {
+        return peso;
+    }
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-	
-	public InformacionDeEnvio getEnvio() {
-		return envio;
-	}
+    public void setPeso(int peso) {
+        this.peso = peso;
+    }
 
-	public void setEnvio(InformacionDeEnvio envio) {
-		this.envio = envio;
-	}
+    public String getDescripcion() {
+        return descripcion;
+    }
 
-	public Itinerario getItinerario() {
-		return itinerario;
-	}
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
-	public void setItinerario(Itinerario itinerario) {
-		this.itinerario = itinerario;
-	}
+    public InformacionDeEnvio getEnvio() {
+        return envio;
+    }
 
-	@Override
-	public String toString() {
-		return "Paquete [id=" + id + ", estado=" + estado + ", peso=" + peso + ", descripcion=" + descripcion
-				+ ", envio=" + envio.toString() + ", itinerario=" + itinerario.toString() + "]";
-	}
-	
+    public void setEnvio(InformacionDeEnvio envio) {
+        this.envio = envio;
+    }
 
-	
+    public Itinerario getItinerario() {
+        return itinerario;
+    }
 
+    public void setItinerario(Itinerario itinerario) {
+        this.itinerario = itinerario;
+    }
+
+    public Cliente getRemitente() {
+        return remitente;
+    }
+
+    public void setRemitente(Cliente remitente) {
+        this.remitente = remitente;
+    }
+
+    public Cliente getDestinatario() {
+        return destinatario;
+    }
+
+    public void setDestinatario(Cliente destinatario) {
+        this.destinatario = destinatario;
+    }
+
+    public static int getUltimoId() {
+        return ultimoId;
+    }
+
+    public static void setUltimoId(int ultimoId) {
+        Paquete.ultimoId = ultimoId;
+    }
+
+    @Override
+    public String toString() {
+        return "Paquete{" +
+                "id=" + id +
+                ", estado=" + estado +
+                ", peso=" + peso +
+                ", descripcion='" + descripcion + '\'' +
+                ", envio=" + (envio != null ? envio.toString() : "null") +
+                ", itinerario=" + (itinerario != null ? itinerario.toString() : "null") +
+                ", remitente=" + (remitente != null ? remitente.getNombres() + " " + remitente.getApellidos() : "null") +
+                ", destinatario=" + (destinatario != null ? destinatario.getNombres() + " " + destinatario.getApellidos() : "null") +
+                '}';
+    }
 }

@@ -7,6 +7,7 @@ public class Itinerario {
 	private int volumendisponible;
 	private boolean itinerarioActivo;
 	private static int ultimoId = 0;
+	public final static int PESO_MAXIMO = 1000;
 	
 	public Itinerario() {
 		this.itinerarioActivo = true;

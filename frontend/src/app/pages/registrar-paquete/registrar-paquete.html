@@ -1,53 +1,111 @@
 <div class="paquete-container">
-
     <h1>Registro de Paquete</h1>
 
-    <form>
+    <!-- Mensajes de éxito y error -->
+    @if(successMessage){
+        <div class="alert success">
+            {{ successMessage }}
+        </div>
+    }
+    
+    @if(errorMessage){
+        <div class="alert error">
+            {{ errorMessage }}
+        </div>
+    }
+
+    <form [formGroup]="registrarPaqueteForm" (ngSubmit)="onSubmit()">
 
         <h3>Remitente</h3>
 
         <label>DUI o Teléfono</label>
-
         <div class="busqueda">
-            <input type="text" placeholder="Ingrese DUI o Teléfono">
-            <button type="button">Buscar</button>
+            <input type="text" placeholder="Ingrese DUI o Teléfono" #remitenteDUIOTelefono
+                   formControlName="remitenteDUIOTelefono">
+            <button type="button" (click)="buscarClienteRemitenteEnSelect(remitenteDUIOTelefono.value)">Buscar</button>
         </div>
+        
+        @if(registrarPaqueteForm.get('remitenteDUIOTelefono')?.invalid && 
+           registrarPaqueteForm.get('remitenteDUIOTelefono')?.touched){
+            <div class="error-message">
+                <span>*Ingresa un número de DUI o de teléfono válido, sin espacios ni guiones (8-9 dígitos).</span>
+            </div>
+        }
 
         <label>Nombre del Remitente</label>
-        <input type="text" readonly placeholder="Nombre encontrado">
-
+        <input type="text" readonly placeholder="Nombre encontrado" [value]="remitenteSeleccionado()"
+               [class.error-input]="remitenteSeleccionado() === 'Cliente no encontrado' || remitenteSeleccionado() === 'Formato inválido (8-9 dígitos)'">
+        
         <hr>
-
+        
         <h3>Destinatario</h3>
 
         <label>DUI o Teléfono</label>
-
         <div class="busqueda">
-            <input type="text" placeholder="Ingrese DUI o Teléfono">
-            <button type="button">Buscar</button>
+            <input type="text" placeholder="Ingrese DUI o Teléfono" #destinatarioDUIOTelefono
+                   formControlName="destinatarioDUIOTelefono">
+            <button type="button" (click)="buscarClienteDestinatario(destinatarioDUIOTelefono.value)">Buscar</button>
         </div>
+        
+        @if(registrarPaqueteForm.get('destinatarioDUIOTelefono')?.invalid && 
+           registrarPaqueteForm.get('destinatarioDUIOTelefono')?.touched){
+            <div class="error-message">
+                <span>*Ingresa un número de DUI o de teléfono válido, sin espacios ni guiones (8-9 dígitos).</span>
+            </div>
+        }
 
         <label>Nombre del Destinatario</label>
-        <input type="text" readonly placeholder="Nombre encontrado">
+        <input type="text" readonly placeholder="Nombre encontrado" [value]="destinatarioSeleccionado()"
+               [class.error-input]="destinatarioSeleccionado() === 'Cliente no encontrado' || destinatarioSeleccionado() === 'Formato inválido (8-9 dígitos)'">
 
         <hr>
 
         <label>Sucursal Origen</label>
-        <select>
-            <option>Seleccione una sucursal</option>
+        <select formControlName="sucursalOrigen">
+            <option value="">Seleccione una sucursal</option>
+            @for (item of sucursalesArray; track item.id) {
+                <option [value]="item.id">
+                    {{ item.nombre }}
+                </option>
+            }
         </select>
+        @if(registrarPaqueteForm.get('sucursalOrigen')?.invalid && registrarPaqueteForm.get('sucursalOrigen')?.touched){
+            <div class="error-message">
+                <span>*Seleccione una sucursal de origen</span>
+            </div>
+        }
 
         <label>Sucursal Destino</label>
-        <select>
-            <option>Seleccione una sucursal</option>
+        <select formControlName="sucursalDestino">
+            <option value="">Seleccione una sucursal</option>
+            @for (item of sucursalesArray; track item.id) {
+                <option [value]="item.id">
+                    {{ item.nombre }}
+                </option>
+            }
         </select>
+        @if(registrarPaqueteForm.get('sucursalDestino')?.invalid && registrarPaqueteForm.get('sucursalDestino')?.touched){
+            <div class="error-message">
+                <span>*Seleccione una sucursal de destino</span>
+            </div>
+        }
 
         <label>Descripción del Paquete</label>
-        <textarea rows="4"
-            placeholder="Describa el contenido del paquete"></textarea>
+        <textarea rows="4" placeholder="Describa el contenido del paquete" 
+                  formControlName="descripcion"></textarea>
+        @if(registrarPaqueteForm.get('descripcion')?.invalid && registrarPaqueteForm.get('descripcion')?.touched){
+            <div class="error-message">
+                <span>*Ingrese una descripción del paquete (mínimo 5 caracteres)</span>
+            </div>
+        }
 
         <label>Peso (Kg)</label>
-        <input type="number" step="0.01" placeholder="0.00">
+        <input type="number" step="0.1" placeholder="Peso en kg" formControlName="peso">
+        @if(registrarPaqueteForm.get('peso')?.invalid && registrarPaqueteForm.get('peso')?.touched){
+            <div class="error-message">
+                <span>*El peso debe ser mayor a 0 kg</span>
+            </div>
+        }
 
         <label>Cantidad de Paquetes</label>
 <input type="number" min="1" value="1" placeholder="Cantidad de paquetes">
@@ -56,16 +114,25 @@
 <input type="number" value="4.00" readonly> 
 
         <label>Estado</label>
-        <select>
-            <option>Pendiente</option>
-            <option>En Ruta</option>
-            <option>Entregado</option>
+        <select formControlName="estado">
+            <option value="Pendiente">Pendiente</option>
+            <option value="En Ruta">En Ruta</option>
+            <option value="Entregado">Entregado</option>
         </select>
 
-        <button type="submit">
-            Guardar Paquete
-        </button>
-
+        <div class="button-group">
+            <button type="submit" [disabled]="registrarPaqueteForm.invalid || isLoading">
+                @if(isLoading){
+                    <span>Guardando...</span>
+                } @else {
+                    <span>Guardar Paquete</span>
+                }
+            </button>
+            
+            <button type="button" class="btn-volver" (click)="volverInicio()">
+                Volver al Inicio
+            </button>
+        </div>
     </form>
 
   <a href="/inicio" class="btn-volver">
