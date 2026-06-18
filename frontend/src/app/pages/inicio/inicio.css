@@ -85,3 +85,19 @@ body{
     width: 500px;
     height: auto;
 }
+.acciones-usuario{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+
+
+.usuario{
+    color:white;
+    text-decoration:none;
+    padding:10px;
+    background:none;
+    border-radius:0;
+    margin:0;
+}
