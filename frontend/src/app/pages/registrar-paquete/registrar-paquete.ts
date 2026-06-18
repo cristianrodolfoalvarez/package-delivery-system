@@ -9,6 +9,7 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angula
   templateUrl: './registrar-paquete.html',
   styleUrl: './registrar-paquete.css',
 })
+<<<<<<< HEAD
 export class RegistrarPaquete implements OnInit {
   // Signals para valores que se actualizan automáticamente
   remitenteSeleccionado: WritableSignal<string> = signal('');
@@ -264,3 +265,4 @@ export class RegistrarPaquete implements OnInit {
     window.location.href = '/';
   }
 }
+

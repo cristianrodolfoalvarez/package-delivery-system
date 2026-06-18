@@ -1,0 +1,31 @@
+<div class="login-container">
+
+    <div class="login-box">
+
+        <h1>EnviaFacil</h1>
+
+        <h3>Inicio de Sesión</h3>
+
+        <label>Usuario</label>
+        <input
+            type="text"
+            [(ngModel)]="usuario"
+            placeholder="Ingrese usuario">
+
+        <label>Contraseña</label>
+        <input
+            type="password"
+            [(ngModel)]="password"
+            placeholder="Ingrese contraseña">
+
+       <button type="button" (click)="iniciarSesion()">
+    PROBAR LOGIN
+</button>
+
+        <p class="error">
+            {{ mensaje }}
+        </p>
+
+    </div>
+
+</div>
