@@ -39,6 +39,8 @@ public class PaqueteController {
 	    System.out.println("Sucursal Origen: " + paquete.sucursalOrigen());
 	    System.out.println("Sucursal Destino: " + paquete.sucursalDestino());
 	    System.out.println("Peso: " + paquete.peso());
+	    System.out.println("Cantidad paquetes: " + paquete.cantidad());
+	    System.out.println("Precio unitario: " + paquete.precio());
 	    System.out.println("Descripción: " + paquete.descripcion());
 	    System.out.println("Estado: " + paquete.estado());
 	    System.out.println("=============================");

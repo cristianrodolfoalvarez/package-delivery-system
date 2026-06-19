@@ -43,7 +43,9 @@ public class PaqueteService {
 	 */
 	public boolean crearPaquete(PaqueteCreateRequest nuevoPaquete) {
 		System.out.println("=== INICIANDO CREACIÓN DE PAQUETE ===");
-		if (Itinerario.PESO_MAXIMO < nuevoPaquete.peso())
+		final int PESO_TOTAL = nuevoPaquete.peso()*nuevoPaquete.cantidad();
+
+		if (Itinerario.PESO_MAXIMO < PESO_TOTAL)
 			return false;
 		if (!validarSucursales(nuevoPaquete.sucursalOrigen(), nuevoPaquete.sucursalDestino()))
 			return false;
@@ -58,12 +60,11 @@ public class PaqueteService {
 			return false;// throw new ExcepcionPersonalizada("remitente", "Error, remitente no
 							// encontrado.");
 		System.out.println("Destinatario encontrado: " + destinatario.getNombres() + " " + destinatario.getApellidos());
-		Itinerario itinerario = asignarItinerario(nuevoPaquete.sucursalOrigen(), nuevoPaquete.sucursalDestino(),
-				nuevoPaquete.peso());
-		Paquete paquete = new Paquete(EstadoPaquete.PENDIENTE, nuevoPaquete.peso(), nuevoPaquete.descripcion());
+		Itinerario itinerario = validarItinerario(nuevoPaquete.sucursalOrigen(), nuevoPaquete.sucursalDestino(),
+				PESO_TOTAL);
+		Paquete paquete = new Paquete(EstadoPaquete.PENDIENTE, nuevoPaquete.peso(), nuevoPaquete.descripcion(),
+				remitente, destinatario, nuevoPaquete.precio(), nuevoPaquete.cantidad());
 		paquete.setItinerario(itinerario);
-		paquete.setRemitente(remitente);
-		paquete.setDestinatario(destinatario);
 
 		InformacionDeEnvio envio = new InformacionDeEnvio(CodigoSeguimientoGenerator.generarCodigoDeSeguimiento());
 		paquete.setEnvio(envio);
@@ -72,7 +73,7 @@ public class PaqueteService {
 		if (guardado) {
 			// 9. Descontar peso disponible del itinerario
 			// this.itinerarioRepository.
-			descontarPesoDisponible(itinerario, paquete.getPeso());
+			descontarPesoDisponible(itinerario, PESO_TOTAL);
 
 			// 10. Mostrar información de confirmación
 			System.out.println("PAQUETE REGISTRADO");
@@ -81,6 +82,8 @@ public class PaqueteService {
 			System.out.println("Remitente: " + remitente.getNombres() + " " + remitente.getApellidos());
 			System.out.println("Destinatario: " + destinatario.getNombres() + " " + destinatario.getApellidos());
 			System.out.println("Peso: " + paquete.getPeso() + " kg");
+		    System.out.println("Cantidad paquetes: " + paquete.getCantidad());
+		    System.out.println("Precio unitario: " + paquete.getPrecioUnit());
 			System.out.println("Estado: " + paquete.getEstado());
 			System.out.println("Itinerario: " + itinerario.getSucursalOrigen().getNombre() + " -> "
 					+ itinerario.getSucursalDestino().getNombre());
@@ -131,7 +134,7 @@ public class PaqueteService {
 
 	/**
 	 * Valida y convierte el estado del paquete
-	 */
+	 
 	private EstadoPaquete validarEstadoPaquete(String estado) {
 		if (estado == null || estado.trim().isEmpty()) {
 			return EstadoPaquete.PENDIENTE;
@@ -143,12 +146,12 @@ public class PaqueteService {
 			throw new ExcepcionPersonalizada("estado_paquete",
 					"Estado inválido. Valores permitidos: PENDIENTE, EN_RUTA, ENTREGADO");
 		}
-	}
+	}*/
 
 	/**
 	 * Asigna o crea un itinerario
 	 */
-	private Itinerario asignarItinerario(int sucursalOrigen, int sucursalDestino, int peso) {
+	private Itinerario validarItinerario(int sucursalOrigen, int sucursalDestino, int peso) {
 		Itinerario itinerario = this.itinerarioRepository.verificarItinerarioExistente(sucursalOrigen, sucursalDestino)
 				.orElse(null);
 		if (itinerario == null) {// si no existe se crea

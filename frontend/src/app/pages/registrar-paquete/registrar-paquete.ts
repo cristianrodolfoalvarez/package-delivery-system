@@ -9,7 +9,6 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angula
   templateUrl: './registrar-paquete.html',
   styleUrl: './registrar-paquete.css',
 })
-<<<<<<< HEAD
 export class RegistrarPaquete implements OnInit {
   // Signals para valores que se actualizan automáticamente
   remitenteSeleccionado: WritableSignal<string> = signal('');
@@ -39,6 +38,8 @@ export class RegistrarPaquete implements OnInit {
       sucursalDestino: new FormControl('', [Validators.required]),
       descripcion: new FormControl('', ),
       peso: new FormControl(1, [Validators.required, Validators.min(1)]),
+      cantidad: new FormControl(1,[Validators.required, Validators.min(1)]),
+      precio: new FormControl(4,[Validators.required, Validators.min(0.01)]),
       estado: new FormControl('Pendiente', [Validators.required])
     });
   }
@@ -105,7 +106,7 @@ export class RegistrarPaquete implements OnInit {
       },
       error: (error: any) => {
         console.error("Error en la petición:", error);
-        this.remitenteSeleccionado.set('Error: Cliente no encontrado');
+        this.remitenteSeleccionado.set('Cliente no encontrado');
       }
     });
   }
@@ -154,7 +155,7 @@ export class RegistrarPaquete implements OnInit {
       },
       error: (error: any) => {
         console.error("Error:", error);
-        this.destinatarioSeleccionado.set('Error: Cliente no encontrado');
+        this.destinatarioSeleccionado.set('Cliente no encontrado');
       }
     });
   }
@@ -196,6 +197,8 @@ export class RegistrarPaquete implements OnInit {
         sucursalDestino: Number(this.registrarPaqueteForm.value.sucursalDestino),
         descripcion: this.registrarPaqueteForm.value.descripcion,
         peso: Number(this.registrarPaqueteForm.value.peso),
+        cantidad:Number(this.registrarPaqueteForm.value.cantidad),
+        precio:Number(this.registrarPaqueteForm.value.precio),
         estado: this.registrarPaqueteForm.value.estado
       };
       
