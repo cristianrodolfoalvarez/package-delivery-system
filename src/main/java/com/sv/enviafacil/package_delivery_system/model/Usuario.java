@@ -11,7 +11,6 @@ public class Usuario {
 	private RolUsuario rol;
 	private String nombreUsuario;
 	private String contrasena;//Deberá almacenarse el hash de la contraseña, no la contraseña en plano en la db.
-	private String jwtToken;//Para agregar una capa de seguridad adicional. Pero pendiente de implementar.
 	private static IdGenerator idGenerator = new IdGenerator();//Clase provisional generadora de ids porque aun no se ha conectado con una db.
 	/**
 	 * @param mail
@@ -19,7 +18,7 @@ public class Usuario {
 	 * @param contrasena
 	 * @param jwtToken
 	 */
-	public Usuario(String mail, String nombres, String apellidos, RolUsuario rol, String nombreUsuario, String contrasena, String jwtToken) {
+	public Usuario(String mail, String nombres, String apellidos, RolUsuario rol, String nombreUsuario, String contrasena) {
 		super();
 		this.id = idGenerator.generarNuevoUltimoId();
 		this.mail = mail;
@@ -28,7 +27,6 @@ public class Usuario {
 		this.rol = rol;
 		this.nombreUsuario = nombreUsuario;
 		this.contrasena = contrasena;
-		this.jwtToken = jwtToken;
 	}
 	
 	public String getMail() {
@@ -70,12 +68,7 @@ public class Usuario {
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
 	}
-	public String getJwtToken() {
-		return jwtToken;
-	}
-	public void setJwtToken(String jwtToken) {
-		this.jwtToken = jwtToken;
-	}
+
 	public int getId() {
 		return id;
 	}

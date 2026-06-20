@@ -1,3 +1,4 @@
+<!-- inicio.html -->
 <div class="navbar">
 
   <div class="logo">
@@ -5,86 +6,61 @@
   </div>
 
   <div class="menu">
-    <a href="/clientes">Clientes</a>
-    <a href="/registrar-paquete">Paquetes</a>
-    <a href="/registrar-sucursal">Sucursales</a>
-    <a href="/asignacion-ruta">Rutas</a>
-    <a href="/empleados">Empleados</a>
-<a href="/">Cerrar Sesión</a>
+    <a routerLink="/clientes">Clientes</a>
+    <a routerLink="/registrar-paquete">Paquetes</a>
+    <a routerLink="/registrar-sucursal">Sucursales</a>
+    <a routerLink="/asignacion-ruta">Rutas</a>
+    <a routerLink="/empleados">Empleados</a>
+    <a (click)="cerrarSesion()" style="cursor: pointer;">Cerrar Sesión</a>
     <a routerLink="/consultar-paquetes">Seguimiento</a>
   </div>
 
   <div class="usuario">
-    Admin
+    {{ usuario }}
   </div>
-
-<a routerLink="/" class="usuario">Cerrar Sesión</a>
 
 </div>
 
 <div class="contenedor">
 
   <div class="card">
-
-    <h2>Registrar Paquete</h2>
-
+    <h2>📦 Registrar Paquete</h2>
     <p>Registrar nuevos paquetes</p>
-
-    <a href="/registrar-paquete">
+    <a routerLink="/registrar-paquete">
       <button>Ingresar</button>
     </a>
-
   </div>
 
   <div class="card">
-
-    <h2>Seguimiento</h2>
-
+    <h2>🔍 Seguimiento</h2>
     <p>Consultar estado de envíos</p>
-
     <a routerLink="/consultar-paquetes">
       <button>Ver seguimiento</button>
     </a>
-
   </div>
 
   <div class="card">
-
-    <h2>Sucursales</h2>
-
+    <h2>🏢 Sucursales</h2>
     <p>Gestionar sucursales</p>
-
-    <a href="/registrar-sucursal">
+    <a routerLink="/registrar-sucursal">
       <button>Registrar</button>
     </a>
-
   </div>
 
   <div class="card">
-
-    <h2>Asignación de Ruta</h2>
-
+    <h2>🗺️ Asignación de Ruta</h2>
     <p>Asignar rutas, pilotos y vehículos</p>
-
     <a routerLink="/asignacion-ruta">
       <button>Ingresar</button>
     </a>
-
   </div>
 
   <div class="card">
-
-    <h2>Empleados</h2>
-
+    <h2>👤 Empleados</h2>
     <p>Registrar y administrar empleados</p>
-
-    <a href="/empleados">
+    <a routerLink="/empleados">
       <button>Ingresar</button>
     </a>
-
   </div>
-
- 
-
 
 </div>
