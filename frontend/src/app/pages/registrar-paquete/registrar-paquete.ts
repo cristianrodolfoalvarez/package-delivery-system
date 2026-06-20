@@ -43,7 +43,6 @@ export class RegistrarPaquete implements OnInit {
       estado: new FormControl('Pendiente', [Validators.required])
     });
   }
-
   cargarSucursalesDisponibles() {
     this.api.obtenerSucursalesDisponibles().subscribe({
       next: (sucursalesObtenidas: { [key: number]: string }) => {
