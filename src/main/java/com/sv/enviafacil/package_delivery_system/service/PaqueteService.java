@@ -1,20 +1,30 @@
 package com.sv.enviafacil.package_delivery_system.service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sv.enviafacil.package_delivery_system.dto.request.ActualizarEstadoRequest;
 import com.sv.enviafacil.package_delivery_system.dto.request.PaqueteCreateRequest;
 import com.sv.enviafacil.package_delivery_system.dto.response.ClienteResponse;
+import com.sv.enviafacil.package_delivery_system.dto.response.PaqueteResponse;
+import com.sv.enviafacil.package_delivery_system.dto.response.PuntoTransitoResponse;
 import com.sv.enviafacil.package_delivery_system.model.Cliente;
 import com.sv.enviafacil.package_delivery_system.model.InformacionDeEnvio;
 import com.sv.enviafacil.package_delivery_system.model.Itinerario;
 import com.sv.enviafacil.package_delivery_system.model.Paquete;
+import com.sv.enviafacil.package_delivery_system.model.PuntoDeTransito;
+import com.sv.enviafacil.package_delivery_system.model.Sucursal;
+import com.sv.enviafacil.package_delivery_system.model.Usuario;
 import com.sv.enviafacil.package_delivery_system.model.enums.EstadoPaquete;
 import com.sv.enviafacil.package_delivery_system.repository.ClienteRepository;
 import com.sv.enviafacil.package_delivery_system.repository.ItinerarioRepository;
 import com.sv.enviafacil.package_delivery_system.repository.PaqueteRepository;
 import com.sv.enviafacil.package_delivery_system.repository.SucursalRepository;
+import com.sv.enviafacil.package_delivery_system.repository.UsuarioRepository;
 import com.sv.enviafacil.package_delivery_system.utils.CodigoSeguimientoGenerator;
 import com.sv.enviafacil.package_delivery_system.utils.ExcepcionPersonalizada;
 import com.sv.enviafacil.package_delivery_system.utils.MisValidadores;
@@ -26,25 +36,99 @@ public class PaqueteService {
 	private final ItinerarioRepository itinerarioRepository;
 	private final SucursalRepository sucursalRepository;
 	private final ClienteRepository clienteRepository;
+	private final UsuarioRepository usuarioRepository;
 	private final HashMap<Integer, String> sucursalesExistentes;
 
 	public PaqueteService(PaqueteRepository paqueteRepository, ItinerarioRepository itinerarioRepository,
-			SucursalRepository sucursalRepository, ClienteRepository clienteRepository) {
+			SucursalRepository sucursalRepository, ClienteRepository clienteRepository, UsuarioRepository usuarioRepository) {
 		this.paqueteRepository = paqueteRepository;
 		this.itinerarioRepository = itinerarioRepository;
 		this.sucursalRepository = sucursalRepository;
 		this.clienteRepository = clienteRepository;
+		this.usuarioRepository = usuarioRepository;
 		this.sucursalesExistentes = this.sucursalRepository.obtenerSucursalesDisponibles();
 		inicializacionItinerarioSimulacion();
 	}
+	// service/PaqueteService.java - Agregar este método
 
+	/**
+	 * Cambia el estado de un paquete y registra un punto de transito
+	 */
+	public boolean actualizarEstadoPaquete(int id, ActualizarEstadoRequest request) {
+	    System.out.println("=== ACTUALIZANDO ESTADO DE PAQUETE ===");
+	    System.out.println("ID Paquete: " + id);
+	    System.out.println("Nuevo Estado: " + request.nuevoEstado());
+	    System.out.println("Sucursal ID: " + request.sucursalId());
+	    
+	    // Buscar el paquete
+	    Paquete paquete = this.paqueteRepository.buscarPorId(id).orElse(null);
+	    if (paquete == null) {
+	        System.out.println("ERROR: Paquete no encontrado con ID: " + id);
+	        return false;
+	    }
+	    
+	    // Validar el nuevo estado
+	    EstadoPaquete nuevoEstado;
+	    try {
+	        nuevoEstado = EstadoPaquete.fromString(request.nuevoEstado());
+	    } catch (IllegalArgumentException e) {
+	        System.out.println("ERROR: Estado invalido: " + request.nuevoEstado());
+	        return false;
+	    }
+	    
+	    // Validar que el estado actual sea diferente al nuevo
+	    if (paquete.getEstado() == nuevoEstado) {
+	        System.out.println("El paquete ya tiene el estado: " + nuevoEstado);
+	        return true;
+	    }
+	    
+	    // Obtener la sucursal
+	    Sucursal sucursal = this.sucursalRepository.buscarSucursal(request.sucursalId()).orElse(null);
+	    if (sucursal == null) {
+	        System.out.println("ERROR: Sucursal no encontrada con ID: " + request.sucursalId());
+	        return false;
+	    }
+	    
+	    // Registrar punto de transito
+	    PuntoDeTransito punto = new PuntoDeTransito(new Date(), sucursal);
+	    paquete.agregarPuntoDeTransito(punto);
+	    
+	    // Actualizar sucursal actual del paquete
+	    paquete.setSucursalActual(sucursal);
+	    
+	    // Si el estado es ENTREGADO, la ubicacion actual es la sucursal destino
+	    if (nuevoEstado == EstadoPaquete.ENTREGADO) {
+	        System.out.println("Paquete entregado en: " + sucursal.getNombre());
+	    }
+	    
+	    // Actualizar el estado del paquete
+	    paquete.setEstado(nuevoEstado);
+	    
+	    System.out.println("Punto de transito registrado en: " + sucursal.getNombre());
+	    System.out.println("Nuevo estado: " + nuevoEstado.getDescripcion());
+	    System.out.println("Total de puntos de transito: " + paquete.getPuntosDeTransito().size());
+	    
+	    return true;
+	}
+	
+	
 	/**
 	 * Crea un nuevo paquete en el sistema
 	 */
 	public boolean crearPaquete(PaqueteCreateRequest nuevoPaquete) {
 		System.out.println("=== INICIANDO CREACIÓN DE PAQUETE ===");
 		final int PESO_TOTAL = nuevoPaquete.peso()*nuevoPaquete.cantidad();
-
+		
+	    Usuario usuarioRegistro = null;
+	    if (nuevoPaquete.usuarioId() != null) {
+	        usuarioRegistro = this.usuarioRepository.obtenerUsuario(nuevoPaquete.usuarioId()).orElse(null);
+	        if (usuarioRegistro == null) {
+	        	return false;//throw new ExcepcionPersonalizada("usuario", "Usuario no encontrado con ID: " + nuevoPaquete.usuarioId());
+	        }
+	        System.out.println("Usuario que registra: " + usuarioRegistro.getNombreUsuario());
+	    } else {
+	      return false; // System.out.println("No se especificó usuario que registra el paquete");
+	    }
 		if (Itinerario.PESO_MAXIMO < PESO_TOTAL)
 			return false;
 		if (!validarSucursales(nuevoPaquete.sucursalOrigen(), nuevoPaquete.sucursalDestino()))
@@ -65,7 +149,7 @@ public class PaqueteService {
 		Paquete paquete = new Paquete(EstadoPaquete.PENDIENTE, nuevoPaquete.peso(), nuevoPaquete.descripcion(),
 				remitente, destinatario, nuevoPaquete.precio(), nuevoPaquete.cantidad());
 		paquete.setItinerario(itinerario);
-
+		paquete.setUsuarioRegistro(usuarioRegistro);
 		InformacionDeEnvio envio = new InformacionDeEnvio(CodigoSeguimientoGenerator.generarCodigoDeSeguimiento());
 		paquete.setEnvio(envio);
 
@@ -241,5 +325,109 @@ public class PaqueteService {
 	private void descontarPesoDisponible(Itinerario itinerario, int peso) {
 		itinerario.setVolumendisponible(itinerario.getVolumendisponible() - peso);
 		System.out.println("Peso descontado. Disponible restante: " + itinerario.getVolumendisponible() + " kg");
+	}
+	
+	// service/PaqueteService.java - Método convertirPaqueteAResponse
+	public List<PaqueteResponse> obtenerTodosLosPaquetes() {
+	    System.out.println("=== OBTENIENDO TODOS LOS PAQUETES ===");
+	    List<Paquete> paquetes = this.paqueteRepository.verPaquetesIngresados();
+	    List<PaqueteResponse> response = new ArrayList<>();
+	    
+	    for (Paquete paquete : paquetes) {
+	        response.add(convertirPaqueteAResponse(paquete));
+	    }
+	    
+	    System.out.println("Total de paquetes encontrados: " + response.size());
+	    return response;
+	}
+	public PaqueteResponse buscarPaquetePorCodigo(String codigo) {
+	    System.out.println("Buscando paquete por codigo: " + codigo);
+	    
+	    List<Paquete> paquetes = this.paqueteRepository.verPaquetesIngresados();
+	    
+	    for (Paquete paquete : paquetes) {
+	        if (paquete.getEnvio() != null && 
+	            paquete.getEnvio().getCodSeguimiento().equalsIgnoreCase(codigo)) {
+	            System.out.println("Paquete encontrado: " + paquete.getId());
+	            return convertirPaqueteAResponse(paquete);
+	        }
+	    }
+	    
+	    System.out.println("Paquete no encontrado con codigo: " + codigo);
+	    return null;
+	}
+	private PaqueteResponse convertirPaqueteAResponse(Paquete paquete) {
+	    System.out.println("Convirtiendo paquete a response: " + paquete.getId());
+	    
+	    // Datos del remitente
+	    String remitente = "";
+	    if (paquete.getRemitente() != null) {
+	        remitente = paquete.getRemitente().getNombres() + " " + paquete.getRemitente().getApellidos();
+	    }
+	    
+	    // Datos del destinatario
+	    String destinatario = "";
+	    if (paquete.getDestinatario() != null) {
+	        destinatario = paquete.getDestinatario().getNombres() + " " + paquete.getDestinatario().getApellidos();
+	    }
+	    
+	    // Datos del itinerario
+	    String sucursalOrigen = "";
+	    String sucursalDestino = "";
+	    String ubicacionActual = "";
+	    
+	    if (paquete.getItinerario() != null) {
+	        if (paquete.getItinerario().getSucursalOrigen() != null) {
+	            sucursalOrigen = paquete.getItinerario().getSucursalOrigen().getNombre();
+	        }
+	        if (paquete.getItinerario().getSucursalDestino() != null) {
+	            sucursalDestino = paquete.getItinerario().getSucursalDestino().getNombre();
+	        }
+	    }
+	    
+	    // Ubicacion actual (sucursal actual o la de origen)
+	    if (paquete.getSucursalActual() != null) {
+	        ubicacionActual = paquete.getSucursalActual().getNombre();
+	    } else {
+	        ubicacionActual = sucursalOrigen;
+	    }
+	    
+	    // Codigo de seguimiento
+	    String codigoSeguimiento = "";
+	    if (paquete.getEnvio() != null) {
+	        codigoSeguimiento = paquete.getEnvio().getCodSeguimiento();
+	    }
+	    
+	    // Estado del paquete
+	    String estado = "";
+	    if (paquete.getEstado() != null) {
+	        estado = paquete.getEstado().name(); // Devuelve PENDIENTE, EN_RUTA, etc.
+	    }
+	    
+	    // Convertir puntos de transito
+	    List<PuntoTransitoResponse> puntosResponse = new ArrayList<>();
+	    if (paquete.getPuntosDeTransito() != null && !paquete.getPuntosDeTransito().isEmpty()) {
+	        for (PuntoDeTransito punto : paquete.getPuntosDeTransito()) {
+	            String estadoPunto = paquete.getEstado() != null ? 
+	                paquete.getEstado().getDescripcion() : "Sin estado";
+	            puntosResponse.add(PuntoTransitoResponse.fromModel(
+	                punto.getFechaRecepcion(),
+	                punto.getSucursalRecepcionTemporal().getNombre(),
+	                estadoPunto
+	            ));
+	        }
+	    }
+	    
+	    return new PaqueteResponse(
+	        paquete.getId(),
+	        codigoSeguimiento,
+	        remitente,
+	        destinatario,
+	        estado,
+	        sucursalOrigen,
+	        sucursalDestino,
+	        ubicacionActual,
+	        puntosResponse
+	    );
 	}
 }

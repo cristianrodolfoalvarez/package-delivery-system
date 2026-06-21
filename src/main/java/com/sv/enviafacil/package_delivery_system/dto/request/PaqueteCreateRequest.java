@@ -40,6 +40,7 @@ public record PaqueteCreateRequest(
     int sucursalDestino,
     
     @NotBlank(message = "El estado es obligatorio")
-    String estado
+    String estado,
+    Integer usuarioId
 ) {
 }

@@ -1,85 +1,160 @@
+<!-- consultar-paquetes.html -->
 <div class="consulta-container">
 
     <h1>Seguimiento de Paquetes</h1>
 
+    @if(successMessage()){
+        <div class="alert success" (click)="limpiarMensajes()">
+            {{ successMessage() }}
+        </div>
+    }
+    
+    @if(errorMessage()){
+        <div class="alert error" (click)="limpiarMensajes()">
+            {{ errorMessage() }}
+        </div>
+    }
+
     <div class="busqueda">
-        <input type="text" placeholder="Buscar por código de seguimiento">
-        <button type="button">Buscar</button>
+        <input 
+            type="text" 
+            placeholder="Buscar por codigo de seguimiento" 
+            [(ngModel)]="codigoBusqueda"
+            (keyup.enter)="buscarPorCodigo()">
+        <button (click)="buscarPorCodigo()" [disabled]="isLoading()">
+            @if(isLoading()){
+                <span>Buscando...</span>
+            } @else {
+                <span>Buscar</span>
+            }
+        </button>
+        <button (click)="cargarTodosLosPaquetes()" class="btn-limpiar">
+            Mostrar Todos
+        </button>
     </div>
 
-    <table>
+    <div style="background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 4px;">
+        <p><strong>Debug:</strong></p>
+        <p>isLoading: {{ isLoading() }}</p>
+        <p>Cantidad de paquetes: {{ paquetesFiltrados().length }}</p>
+        <p>errorMessage: {{ errorMessage() }}</p>
+    </div>
 
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Remitente</th>
-                <th>Destinatario</th>
-                <th>Estado del Envío</th>
-                <th>Ubicación Actual</th>
-                <th>Próximo Destino</th>
-                <th>Observación</th>
-                <th>Actualizar Estado</th>
-            </tr>
-        </thead>
+    @if(isLoading()){
+        <div class="loading">
+            Cargando paquetes...
+        </div>
+    }
 
-        <tbody>
+    @if(!isLoading() && paquetesFiltrados().length > 0){
+        <table>
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Remitente</th>
+                    <th>Destinatario</th>
+                    <th>Estado</th>
+                    <th>Ubicacion Actual</th>
+                    <th>Detalle</th>
+                    <th>Actualizar Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(paquete of paquetesFiltrados(); track paquete.id){
+                    <tr>
+                        <td><strong>{{ paquete.codigoSeguimiento }}</strong></td>
+                        <td>{{ paquete.remitente }}</td>
+                        <td>{{ paquete.destinatario }}</td>
+                        <td>
+                            <span [class]="getEstadoClass(paquete.estado)">
+                                {{ getEstadoDescripcion(paquete.estado) }}
+                            </span>
+                        </td>
+                        <td>{{ paquete.ubicacionActual }}</td>
+                        <td>
+                            <button class="btn-detalle" (click)="verDetalle(paquete)">
+                                Ver Historial
+                            </button>
+                        </td>
+                        <td>
+                            <select 
+                                [value]="paquete.estado"
+                                (change)="actualizarEstado(paquete, $any($event.target).value)">
+                                @for(estado of estadosDisponibles; track estado.valor){
+                                    <option [value]="estado.valor" [selected]="paquete.estado === estado.valor">
+                                        {{ estado.etiqueta }}
+                                    </option>
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+        <div class="contador">
+            Total de paquetes: {{ paquetesFiltrados().length }}
+        </div>
+    }
 
-            <tr>
-                <td>ENV-0001</td>
-                <td>Juan Pérez</td>
-                <td>María López</td>
-                <td>En Tránsito</td>
-                <td>Santa Ana</td>
-                <td>Ahuachapán</td>
-                <td>Llegó a escala en Santa Ana. Salida programada para mañana.</td>
-
-                <td>
-                    <select>
-                        <option>Pendiente de Asignación</option>
-                        <option>Ruta Asignada</option>
-                        <option selected>En Tránsito</option>
-                        <option>En Sucursal Destino</option>
-                        <option>Entregado</option>
-                        <option>Incidencia</option>
-                    </select>
-                </td>
-            </tr>
-
-            <tr>
-                <td>ENV-0002</td>
-                <td>Carlos Ruiz</td>
-                <td>Ana García</td>
-                <td>Pendiente de Asignación</td>
-                <td>Sucursal Central</td>
-                <td>Santa Ana</td>
-                <td>Paquete recibido. Pendiente de asignación de ruta.</td>
-
-                <td>
-                    <select>
-                        <option selected>Pendiente de Asignación</option>
-                        <option>Ruta Asignada</option>
-                        <option>En Tránsito</option>
-                        <option>En Sucursal Destino</option>
-                        <option>Entregado</option>
-                        <option>Incidencia</option>
-                    </select>
-                </td>
-            </tr>
-
-        </tbody>
-
-    </table>
+    @if(!isLoading() && paquetesFiltrados().length === 0){
+        <div class="no-results">
+            <p>No hay paquetes para mostrar</p>
+            <button (click)="cargarTodosLosPaquetes()" class="btn-recargar">
+                Recargar Lista
+            </button>
+        </div>
+    }
 
     <br>
 
-    <button type="button">
-        Guardar Cambios
-    </button>
-
-    <br><br>
-
     <a href="/inicio" class="btn-volver">
-        Volver al Menú Principal
+        Volver al Menu Principal
     </a>
 
 </div>
+
+<!-- Modal de Detalle -->
+@if(mostrarDetalle() && paqueteSeleccionado()){
+    <div class="modal-overlay" (click)="cerrarDetalle()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Historial de Seguimiento</h2>
+                <button class="modal-close" (click)="cerrarDetalle()">X</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="info-paquete">
+                    <p><strong>Codigo:</strong> {{ paqueteSeleccionado()?.codigoSeguimiento }}</p>
+                    <p><strong>Remitente:</strong> {{ paqueteSeleccionado()?.remitente }}</p>
+                    <p><strong>Destinatario:</strong> {{ paqueteSeleccionado()?.destinatario }}</p>
+                    <p><strong>Estado actual:</strong> 
+                        <span [class]="getEstadoClass(paqueteSeleccionado()?.estado || '')">
+                            {{ getEstadoDescripcion(paqueteSeleccionado()?.estado || '') }}
+                        </span>
+                    </p>
+                    <p><strong>Ubicacion actual:</strong> {{ paqueteSeleccionado()?.ubicacionActual }}</p>
+                </div>
+
+                <h3>Puntos de Transito</h3>
+                
+                @if(paqueteSeleccionado()?.puntosDeTransito && paqueteSeleccionado()!.puntosDeTransito.length > 0){
+                    <div class="timeline">
+                        @for(punto of paqueteSeleccionado()!.puntosDeTransito; track punto.fecha){
+                            <div class="timeline-item">
+                                <div class="timeline-marker"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-date">{{ punto.fecha }}</div>
+                                    <div class="timeline-place">{{ punto.sucursal }}</div>
+                                    <div class="timeline-status">{{ punto.estado }}</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                } @else {
+                    <p class="sin-puntos">No hay puntos de transito registrados</p>
+                }
+            </div>
+        </div>
+    </div>
+}

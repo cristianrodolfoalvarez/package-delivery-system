@@ -1,21 +1,27 @@
 package com.sv.enviafacil.package_delivery_system.controller;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sv.enviafacil.package_delivery_system.dto.request.ActualizarEstadoRequest;
 import com.sv.enviafacil.package_delivery_system.dto.request.PaqueteCreateRequest;
 import com.sv.enviafacil.package_delivery_system.dto.response.ClienteResponse;
+import com.sv.enviafacil.package_delivery_system.dto.response.PaqueteResponse;
 import com.sv.enviafacil.package_delivery_system.service.PaqueteService;
 
 import jakarta.validation.Valid;
@@ -61,4 +67,37 @@ public class PaqueteController {
 		}
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
+	
+    @GetMapping("/todos")
+    public ResponseEntity<List<PaqueteResponse>> obtenerTodosLosPaquetes() {
+        System.out.println("=== GET /paquetes/todos ===");
+        List<PaqueteResponse> paquetes = service.obtenerTodosLosPaquetes();
+        return ResponseEntity.ok(paquetes);
+    }
+
+    @GetMapping("/buscar/{codigo}")
+    public ResponseEntity<PaqueteResponse> buscarPorCodigo(@PathVariable String codigo) {
+        System.out.println("=== GET /paquetes/buscar/" + codigo + " ===");
+        PaqueteResponse paquete = service.buscarPaquetePorCodigo(codigo);
+        if (paquete != null) {
+            return ResponseEntity.ok(paquete);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/{id}/estado")
+    public ResponseEntity<?> actualizarEstado(
+            @PathVariable int id,
+            @Valid @RequestBody ActualizarEstadoRequest request) {
+        System.out.println("=== PUT /paquetes/" + id + "/estado ===");
+        System.out.println("Nuevo estado: " + request.nuevoEstado());
+        System.out.println("Sucursal ID: " + request.sucursalId());
+        
+        boolean actualizado = service.actualizarEstadoPaquete(id, request);
+        
+        if (actualizado) {
+            return ResponseEntity.ok().body(Map.of("mensaje", "Estado actualizado correctamente"));
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

@@ -1,6 +1,8 @@
 package com.sv.enviafacil.package_delivery_system.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sv.enviafacil.package_delivery_system.model.enums.EstadoPaquete;
 
@@ -17,6 +19,10 @@ public class Paquete {
     private Cliente remitente;
     private Cliente destinatario;
     private static int ultimoId = 0;
+    private Usuario usuarioRegistro;
+    //PARA LOS PUNTOS DE TRANSITO/PAQUETE
+    private List<PuntoDeTransito> puntosDeTransito = new ArrayList<PuntoDeTransito>();
+    private Sucursal sucursalActual;
 
     /**
      * Constructor para crear un nuevo paquete
@@ -47,7 +53,7 @@ public class Paquete {
         this.destinatario = destinatario;
         this.precioUnit = precioUnit;
         this.cantidad = cantidad;
-
+       
     }
 
     private static int generarNuevoUltimoId() {
@@ -57,6 +63,29 @@ public class Paquete {
     // Getters y Setters
     public int getId() {
         return id;
+    }
+    
+    public List<PuntoDeTransito> getPuntosDeTransito() {
+        return puntosDeTransito;
+    }
+
+    public void setPuntosDeTransito(List<PuntoDeTransito> puntosDeTransito) {
+        this.puntosDeTransito = puntosDeTransito;
+    }
+
+    public void agregarPuntoDeTransito(PuntoDeTransito punto) {
+        if (this.puntosDeTransito == null) {
+            this.puntosDeTransito = new ArrayList<>();
+        }
+        this.puntosDeTransito.add(punto);
+    }
+
+    public Sucursal getSucursalActual() {
+        return sucursalActual;
+    }
+
+    public void setSucursalActual(Sucursal sucursalActual) {
+        this.sucursalActual = sucursalActual;
     }
 
     public void setId(int id) {
@@ -142,6 +171,15 @@ public class Paquete {
 	public void setPrecioUnit(BigDecimal precioUnit) {
 		this.precioUnit = precioUnit;
 	}
+	// Getters y Setters
+	public Usuario getUsuarioRegistro() {
+	    return usuarioRegistro;
+	}
+
+	public void setUsuarioRegistro(Usuario usuarioRegistro) {
+	    this.usuarioRegistro = usuarioRegistro;
+	}
+
 
 	@Override
     public String toString() {

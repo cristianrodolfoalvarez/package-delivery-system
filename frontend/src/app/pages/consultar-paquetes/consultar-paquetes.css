@@ -101,3 +101,56 @@ select{
 .btn-volver:hover{
     background-color: #274b9f;
 }
+/* consultar-paquete.css - Agregar estos estilos */
+
+.contador {
+    text-align: right;
+    padding: 10px;
+    color: #666;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 16px;
+}
+
+.no-results p {
+    margin-bottom: 15px;
+}
+
+.btn-recargar {
+    background: #17a2b8;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-recargar:hover {
+    background: #138496;
+}
+
+/* Debug info - opcional, para ver datos */
+.debug-info {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border-left: 4px solid #007bff;
+    font-size: 13px;
+}
+
+.debug-info p {
+    margin: 4px 0;
+}
+
+.debug-info strong {
+    color: #333;
+}

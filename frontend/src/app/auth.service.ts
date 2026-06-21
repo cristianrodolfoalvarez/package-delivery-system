@@ -53,7 +53,7 @@ export class AuthService {
     localStorage.setItem('userId', String(response.id || ''));
     localStorage.setItem('isLoggedIn', 'true');
     
-    console.log('✅ Sesión guardada correctamente');
+    console.log('Sesión guardada correctamente');
   }
 
   obtenerUsuario(): string | null {
@@ -77,7 +77,7 @@ export class AuthService {
     return localStorage.getItem('isLoggedIn') === 'true';
   }
 
-  // ✅ Método logout - Cierra sesión y limpia el localStorage
+  //Cierra sesión y limpia el localStorage
   logout(): void {
     console.log('🚪 Cerrando sesión...');
     
@@ -88,7 +88,7 @@ export class AuthService {
     localStorage.removeItem('userId');
     localStorage.removeItem('isLoggedIn');
     
-    console.log('✅ Sesión cerrada correctamente');
+    console.log('Sesión cerrada correctamente');
   }
 
   hasRole(rol: string): boolean {

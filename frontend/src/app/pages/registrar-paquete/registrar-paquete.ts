@@ -188,7 +188,8 @@ export class RegistrarPaquete implements OnInit {
     
     if (this.registrarPaqueteForm.valid) {
       this.isLoading = true;
-      
+    const usuarioId = localStorage.getItem('userId');
+    const userIdNumber = usuarioId ? Number(usuarioId) : null;
       const paqueteData = {
         remitenteDUIOTelefono: this.registrarPaqueteForm.value.remitenteDUIOTelefono,
         destinatarioDUIOTelefono: this.registrarPaqueteForm.value.destinatarioDUIOTelefono,
@@ -198,7 +199,8 @@ export class RegistrarPaquete implements OnInit {
         peso: Number(this.registrarPaqueteForm.value.peso),
         cantidad:Number(this.registrarPaqueteForm.value.cantidad),
         precio:Number(this.registrarPaqueteForm.value.precio),
-        estado: this.registrarPaqueteForm.value.estado
+        estado: this.registrarPaqueteForm.value.estado,
+        usuarioId: userIdNumber,
       };
       
       console.log("Enviando paquete al backend:", paqueteData);
