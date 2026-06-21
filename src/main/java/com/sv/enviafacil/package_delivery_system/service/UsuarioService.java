@@ -21,15 +21,13 @@ public class UsuarioService {
 	}
 
 	public void crearUsuario(UsuarioCreateRequest nuevoUsuario) {
-		Usuario usuario = new Usuario(nuevoUsuario.correo(), convertirRolUsuario(nuevoUsuario.rol()),
-				nuevoUsuario.nombre(), nuevoUsuario.contrasena(), "JWTOKEN");
 		if (!verificarNoDuplicidadCorreo(nuevoUsuario.correo()))
-			throw new ExcepcionPersonalizada("correo", "El correo electrónico ya está en uso.");// System.out.println("correo
-																								// electronico y/o
-																								// nombre de usuario no
-																								// disponible");
-		if (!verificarNoDuplicidadNombreUsuario(nuevoUsuario.nombre()))
+			throw new ExcepcionPersonalizada("correo", "El correo electrónico ya está en uso.");
+		if (!verificarNoDuplicidadNombreUsuario(nuevoUsuario.usuario()))
 			throw new ExcepcionPersonalizada("nombre_usuario", "El nombre de usuario ya está en uso.");
+		Usuario usuario = new Usuario(nuevoUsuario.correo(), nuevoUsuario.nombres(), nuevoUsuario.apellidos(), convertirRolUsuario(nuevoUsuario.cargo()),
+				nuevoUsuario.usuario(), nuevoUsuario.contrasena());
+		// System.out.println("correoelectronico y/o nombre de usuario no disponible");
 		usuarioRepository.guardarUsuario(usuario);
 		usuarioRepository.listarUsuarios();
 	}

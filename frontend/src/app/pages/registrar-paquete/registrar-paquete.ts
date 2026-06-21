@@ -9,7 +9,10 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angula
   templateUrl: './registrar-paquete.html',
   styleUrl: './registrar-paquete.css',
 })
+<<<<<<< HEAD
 
+=======
+>>>>>>> bdcb3e8d6c0a57a3ff04cc6d6e1288a8b5d311fa
 export class RegistrarPaquete implements OnInit {
   // Signals para valores que se actualizan automáticamente
   remitenteSeleccionado: WritableSignal<string> = signal('');
@@ -39,10 +42,11 @@ export class RegistrarPaquete implements OnInit {
       sucursalDestino: new FormControl('', [Validators.required]),
       descripcion: new FormControl('', ),
       peso: new FormControl(1, [Validators.required, Validators.min(1)]),
+      cantidad: new FormControl(1,[Validators.required, Validators.min(1)]),
+      precio: new FormControl(4,[Validators.required, Validators.min(0.01)]),
       estado: new FormControl('Pendiente', [Validators.required])
     });
   }
-
   cargarSucursalesDisponibles() {
     this.api.obtenerSucursalesDisponibles().subscribe({
       next: (sucursalesObtenidas: { [key: number]: string }) => {
@@ -105,7 +109,7 @@ export class RegistrarPaquete implements OnInit {
       },
       error: (error: any) => {
         console.error("Error en la petición:", error);
-        this.remitenteSeleccionado.set('Error: Cliente no encontrado');
+        this.remitenteSeleccionado.set('Cliente no encontrado');
       }
     });
   }
@@ -154,7 +158,7 @@ export class RegistrarPaquete implements OnInit {
       },
       error: (error: any) => {
         console.error("Error:", error);
-        this.destinatarioSeleccionado.set('Error: Cliente no encontrado');
+        this.destinatarioSeleccionado.set('Cliente no encontrado');
       }
     });
   }
@@ -188,7 +192,8 @@ export class RegistrarPaquete implements OnInit {
     
     if (this.registrarPaqueteForm.valid) {
       this.isLoading = true;
-      
+    const usuarioId = localStorage.getItem('userId');
+    const userIdNumber = usuarioId ? Number(usuarioId) : null;
       const paqueteData = {
         remitenteDUIOTelefono: this.registrarPaqueteForm.value.remitenteDUIOTelefono,
         destinatarioDUIOTelefono: this.registrarPaqueteForm.value.destinatarioDUIOTelefono,
@@ -196,7 +201,10 @@ export class RegistrarPaquete implements OnInit {
         sucursalDestino: Number(this.registrarPaqueteForm.value.sucursalDestino),
         descripcion: this.registrarPaqueteForm.value.descripcion,
         peso: Number(this.registrarPaqueteForm.value.peso),
-        estado: this.registrarPaqueteForm.value.estado
+        cantidad:Number(this.registrarPaqueteForm.value.cantidad),
+        precio:Number(this.registrarPaqueteForm.value.precio),
+        estado: this.registrarPaqueteForm.value.estado,
+        usuarioId: userIdNumber,
       };
       
       console.log("Enviando paquete al backend:", paqueteData);

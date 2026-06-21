@@ -1,8 +1,20 @@
+<!-- clientes.html -->
 <div class="cliente-container">
-
     <h1>Registro de Clientes</h1>
 
-    <form>
+    @if(successMessage()){
+        <div class="alert success" (click)="successMessage.set('')">
+            {{ successMessage() }}
+        </div>
+    }
+    
+    @if(errorMessage()){
+        <div class="alert error" (click)="errorMessage.set('')">
+            {{ errorMessage() }}
+        </div>
+    }
+
+    <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
 
         <!-- Sección para buscar un cliente existente y editarlo -->
         <div class="buscar-cliente">
@@ -30,19 +42,44 @@
         <!-- Datos del cliente -->
 
         <label>Nombres</label>
-        <input type="text" placeholder="Ingrese nombres">
+        <input type="text" placeholder="Ingrese nombres" formControlName="nombres">
+        @if(clienteForm.get('nombres')?.invalid && clienteForm.get('nombres')?.touched){
+            <div class="error-message">
+                <span>*Ingrese nombres validos (minimo 3 letras)</span>
+            </div>
+        }
 
         <label>Apellidos</label>
-        <input type="text" placeholder="Ingrese apellidos">
+        <input type="text" placeholder="Ingrese apellidos" formControlName="apellidos">
+        @if(clienteForm.get('apellidos')?.invalid && clienteForm.get('apellidos')?.touched){
+            <div class="error-message">
+                <span>*Ingrese apellidos validos (minimo 3 letras)</span>
+            </div>
+        }
 
         <label>DUI</label>
-        <input type="text" placeholder="00000000-0">
+        <input type="text" placeholder="000000000" formControlName="dui">
+        @if(clienteForm.get('dui')?.invalid && clienteForm.get('dui')?.touched){
+            <div class="error-message">
+                <span>*Ingrese un DUI valido (9 digitos sin guiones)</span>
+            </div>
+        }
 
-        <label>Teléfono</label>
-        <input type="text" placeholder="7777-7777">
+        <label>Telefono</label>
+        <input type="text" placeholder="00000000" formControlName="telefono">
+        @if(clienteForm.get('telefono')?.invalid && clienteForm.get('telefono')?.touched){
+            <div class="error-message">
+                <span>*Ingrese un telefono valido (8 digitos sin guiones)</span>
+            </div>
+        }
 
-        <label>Correo Electrónico</label>
-        <input type="email" placeholder="correo@ejemplo.com">
+        <label>Correo Electronico</label>
+        <input type="email" placeholder="correo@ejemplo.com" formControlName="correo">
+        @if(clienteForm.get('correo')?.invalid && clienteForm.get('correo')?.touched){
+            <div class="error-message">
+                <span>*Ingrese un correo electronico valido</span>
+            </div>
+        }
 
         <label>Dirección</label>
         <textarea rows="3"></textarea>
@@ -64,6 +101,58 @@
             Volver al Menú Principal
         </a>
 
+        <button type="submit" [disabled]="clienteForm.invalid || isLoading()">
+            @if(isLoading()){
+                <span>Guardando...</span>
+            } @else {
+                <span>Guardar Cliente</span>
+            }
+        </button>
+
+        <button type="button" class="btn-ver" (click)="toggleLista()">
+            @if(mostrarLista){
+                <span>Ocultar Clientes</span>
+            } @else {
+                <span>Ver Clientes Registrados</span>
+            }
+        </button>
+
+        <a href="/inicio" class="btn-volver">
+            Volver al Menu Principal
+        </a>
     </form>
 
+    @if(mostrarLista){
+        <div class="lista-clientes">
+            <h2>Clientes Registrados</h2>
+            @if(clientes().length > 0){
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>DUI</th>
+                            <th>Telefono</th>
+                            <th>Correo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for(cliente of clientes(); track cliente.id){
+                            <tr>
+                                <td>{{ cliente.id }}</td>
+                                <td>{{ cliente.nombres }}</td>
+                                <td>{{ cliente.apellidos }}</td>
+                                <td>{{ cliente.dui }}</td>
+                                <td>{{ cliente.telefono }}</td>
+                                <td>{{ cliente.correo }}</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            } @else {
+                <p class="sin-clientes">No hay clientes registrados</p>
+            }
+        </div>
+    }
 </div>

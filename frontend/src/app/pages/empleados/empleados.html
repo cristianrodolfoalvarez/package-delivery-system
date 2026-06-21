@@ -1,7 +1,13 @@
 <div class="empleado-container">
-
     <h1>Registro de Empleados</h1>
+        @if(errorMessage()){
+        <div class="alert error">
+            <span>{{ errorMessage() }}</span>
+        </div>
+    }
+    <form [formGroup]="registrarUsuarioForm" (ngSubmit)="onSubmit()">
 
+<<<<<<< HEAD
 <div class="busqueda-empleado">
     <input type="text" id="buscarEmpleado"
            placeholder="Ingrese ID, DUI o Usuario">
@@ -11,37 +17,83 @@
 </div>
 
     <form>
+=======
+        <label>Nombres</label>
+        <input type="text" placeholder="Ingrese los nombres" formControlName="nombres">
+        @if(registrarUsuarioForm.get('nombres')?.invalid &&
+        registrarUsuarioForm.get('nombres')?.touched){
+        <div class="error-message">
+            <span>*Ingresa nombres válidos, sin números ni caracteres especiales.</span>
+        </div>
+        }
+>>>>>>> bdcb3e8d6c0a57a3ff04cc6d6e1288a8b5d311fa
 
-        <label>Nombre</label>
-        <input type="text" placeholder="Ingrese nombre">
+        <label>Apellidos</label>
+        <input type="text" placeholder="Ingrese los apellidos" formControlName="apellidos">
+        @if(registrarUsuarioForm.get('apellidos')?.invalid &&
+        registrarUsuarioForm.get('apellidos')?.touched){
+        <div class="error-message">
+            <span>*Ingresa apellidos válidos, sin números ni caracteres especiales.</span>
+        </div>
+        }
 
-        <label>Apellido</label>
-        <input type="text" placeholder="Ingrese apellido">
-
-        <label>Cargo</label>
-        <select>
-            <option>Seleccione un cargo</option>
-            <option>Administrador</option>
-            <option>Gerenter Sucursal</option>
-             <option>Empleado</option>
-          
-         
+        <label>Correo electrónico</label>
+        <input type="email" placeholder="correo@example.com" formControlName="correo">
+        @if(registrarUsuarioForm.get('correo')?.invalid &&
+        registrarUsuarioForm.get('correo')?.touched){
+        <div class="error-message">
+            <span>*Ingresa un correo válido.</span>
+        </div>
+        }
+        <label>Sucursal de trabajo</label>
+        <select formControlName="sucursal">
+            <option value="">Seleccione una sucursal</option>
+            @for (item of sucursalesArray; track item.id) {
+            <option [value]="item.id">
+                {{ item.nombre }}
+            </option>
+            }
         </select>
+        <label>Cargo</label>
+        <select formControlName="cargo">
+            <option value="">Seleccione el cargo</option>
+            @for(rol of roles(); track rol.nombre){
+            <option [value]="rol.nombre">
+                {{ rol.descripcion }}
+            </option>
+            }
+        </select>
+        @if(registrarUsuarioForm.get('cargo')?.invalid && registrarUsuarioForm.get('cargo')?.touched){
+        <div class="error-message">
+            <span>*Seleccione el cargo para el usuario</span>
+        </div>
+        }
 
         <label>Usuario</label>
-        <input type="text" placeholder="Ingrese usuario">
-
+        <input type="text" placeholder="Ingrese usuario" formControlName="usuario">
+        @if(registrarUsuarioForm.get('usuario')?.invalid &&
+        registrarUsuarioForm.get('usuario')?.touched){
+        <div class="error-message">
+            <span>*Ingresa un nombre de usuario válido.</span>
+        </div>
+        }
         <label>Contraseña</label>
-        <input type="password" placeholder="Ingrese contraseña">
-
+        <input type="password" placeholder="Ingrese contraseña" formControlName="contrasena">
+        @if(registrarUsuarioForm.get('contrasena')?.invalid &&
+        registrarUsuarioForm.get('contrasena')?.touched){
+        <div class="error-message">
+            <span>*Ingresa una contraseña válida que contenga al menos un número, una letra mayúscula y un caracter
+                especial.</span>
+        </div>
+        }
         <button type="submit">
             Guardar Empleado
         </button>
         <br><br>
 
-<a href="/inicio" class="btn-volver">
-    Volver al Menú Principal
-</a>
+        <a href="/inicio" class="btn-volver">
+            Volver al Menú Principal
+        </a>
 
     </form>
 

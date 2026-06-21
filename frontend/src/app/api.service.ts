@@ -3,6 +3,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Sucursal } from './models/sucursal.model';
+import { Rol } from './models/rol.model';
+import { Paquete } from './models/paquete.model';
+import { Cliente, ClienteCreateRequest } from './models/cliente.model';
 
 export interface PaqueteRequest {
   remitenteDUIOTelefono: string;
@@ -11,16 +14,56 @@ export interface PaqueteRequest {
   sucursalDestino: number;
   descripcion: string;
   peso: number;
+  cantidad: Number,
+  precio: Number,
   estado: string;
+}
+export interface EmpleadoRequest {
+  nombres: String,
+  apellidos: String,
+  correo: String,
+  sucursal: Number,
+  cargo: String,
+  usuario: String,
+  contrasena: String
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private APIURL = 'http://localhost:8080';
-  
+  private APIURL = 'http://localhost:8080' as const;
+
   constructor(private http: HttpClient) { }
+// api.service.ts - Agregar estos métodos
+
+public crearCliente(cliente: ClienteCreateRequest): Observable<Cliente> {
+    console.log('Creando cliente:', cliente);
+    return this.http.post<Cliente>(`${this.APIURL}/clientes`, cliente);
+}
+
+public obtenerTodosClientes(): Observable<Cliente[]> {
+    console.log('Obteniendo todos los clientes...');
+    return this.http.get<Cliente[]>(`${this.APIURL}/clientes/todos`);
+}
+public obtenerTodosLosPaquetes(): Observable<Paquete[]> {
+    console.log('Obteniendo todos los paquetes...');
+    return this.http.get<Paquete[]>(`${this.APIURL}/paquetes/todos`);
+}
+
+public buscarPaquetePorCodigo(codigo: string): Observable<Paquete> {
+    console.log('Buscando paquete por codigo:', codigo);
+    return this.http.get<Paquete>(`${this.APIURL}/paquetes/buscar/${codigo}`);
+}
+
+public actualizarEstadoPaquete(id: number, nuevoEstado: string, sucursalId: number): Observable<any> {
+    console.log('Actualizando estado del paquete:', id, 'a', nuevoEstado);
+    const body = {
+        nuevoEstado: nuevoEstado,
+        sucursalId: sucursalId
+    };
+    return this.http.put(`${this.APIURL}/paquetes/${id}/estado`, body);
+}
 
   // Buscar cliente por DUI o teléfono
   public buscarCliente(termino: string = ''): Observable<{ [key: number]: string }> {
@@ -29,12 +72,17 @@ export class ApiService {
     console.log(parametro);
     return this.http.get<{ [key: number]: string }>(`${this.APIURL}/paquetes/buscar`, { params: parametro });
   }
-
-  // ✅ AGREGAR ESTE MÉTODO - Guardar nuevo paquete
+//Guardar nuevo paquete
   public guardarPaquete(paquete: PaqueteRequest): Observable<any> {
     console.log("Enviando POST a:", `${this.APIURL}/paquetes`);
     console.log("Datos enviados:", paquete);
     return this.http.post(`${this.APIURL}/paquetes`, paquete);
+  }
+
+  public guardarEmpleado(empleado: EmpleadoRequest): Observable<any> {
+    console.log("Enviando POST a:", `${this.APIURL}/usuarios`);
+    console.log("Datos enviados:", empleado);
+    return this.http.post(`${this.APIURL}/usuarios`, empleado);
   }
 
   // Probar conexión
@@ -45,5 +93,11 @@ export class ApiService {
   // Obtener sucursales disponibles
   public obtenerSucursalesDisponibles(): Observable<{ [key: number]: string }> {
     return this.http.get<{ [key: number]: string }>(`${this.APIURL}/sucursales/disponibles`);
+  }
+
+  //EMPLEADOS END-POINT CONSUMER
+  public obtenerRolesDisponibles(): Observable<Rol[]> {
+    console.log("Obteniendo roles disponibles...");
+    return this.http.get<Rol[]>(`${this.APIURL}/roles/disponibles`);
   }
 }

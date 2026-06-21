@@ -6,10 +6,11 @@ import com.sv.enviafacil.package_delivery_system.utils.IdGenerator;
 public class Usuario {
 	private final int id;
 	private String mail;
+	private String nombres;
+	private String apellidos;
 	private RolUsuario rol;
 	private String nombreUsuario;
 	private String contrasena;//Deberá almacenarse el hash de la contraseña, no la contraseña en plano en la db.
-	private String jwtToken;//Para agregar una capa de seguridad adicional. Pero pendiente de implementar.
 	private static IdGenerator idGenerator = new IdGenerator();//Clase provisional generadora de ids porque aun no se ha conectado con una db.
 	/**
 	 * @param mail
@@ -17,14 +18,15 @@ public class Usuario {
 	 * @param contrasena
 	 * @param jwtToken
 	 */
-	public Usuario(String mail, RolUsuario rol, String nombreUsuario, String contrasena, String jwtToken) {
+	public Usuario(String mail, String nombres, String apellidos, RolUsuario rol, String nombreUsuario, String contrasena) {
 		super();
 		this.id = idGenerator.generarNuevoUltimoId();
 		this.mail = mail;
+		this.nombres = nombres;
+		this.apellidos = apellidos;
 		this.rol = rol;
 		this.nombreUsuario = nombreUsuario;
 		this.contrasena = contrasena;
-		this.jwtToken = jwtToken;
 	}
 	
 	public String getMail() {
@@ -33,6 +35,27 @@ public class Usuario {
 	public void setMail(String mail) {
 		this.mail = mail;
 	}
+	
+	public String getNombres() {
+		return nombres;
+	}
+
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public static IdGenerator getIdGenerator() {
+		return idGenerator;
+	}
+
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
@@ -45,12 +68,7 @@ public class Usuario {
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
 	}
-	public String getJwtToken() {
-		return jwtToken;
-	}
-	public void setJwtToken(String jwtToken) {
-		this.jwtToken = jwtToken;
-	}
+
 	public int getId() {
 		return id;
 	}

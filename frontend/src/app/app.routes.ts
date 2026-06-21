@@ -7,54 +7,67 @@ import { ConsultarPaquetes } from './pages/consultar-paquetes/consultar-paquetes
 import { Empleados } from './pages/empleados/empleados';
 import { AsignacionRuta } from './pages/asignacion-ruta/asignacion-ruta';
 import { Login } from './pages/login/login';
+
 import { ConsultarSucursales } from './pages/consultar-sucursales/consultar-sucursales';
+import { AuthGuard } from './guards/auth.guards';
 
 export const routes: Routes = [
+  { path: '', 
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
 
   {
-    path: '',
+    path: 'login',
     component: Login
   },
 
   {
     path: 'inicio',
-    component: Inicio
+    component: Inicio,
+    canActivate: [AuthGuard]
   },
 
   {
     path: 'clientes',
-    component: Clientes
+    component: Clientes,
+    canActivate: [AuthGuard]
   },
 
   {
     path: 'test',
-    component: Clientes
+    component: Clientes,
+    canActivate: [AuthGuard]
   },
 
   {
     path: 'registrar-sucursal',
-    component: RegistrarSucursal
+    component: RegistrarSucursal,
+    canActivate: [AuthGuard]
   },
 
   {
     path: 'registrar-paquete',
-    component: RegistrarPaquete
+    component: RegistrarPaquete,
+    canActivate: [AuthGuard]
   },
 
   {
     path: 'consultar-paquetes',
-    component: ConsultarPaquetes
+    component: ConsultarPaquetes,
+    canActivate: [AuthGuard]
   },
 
   {
     path: 'empleados',
-    component: Empleados
+    component: Empleados,
+    canActivate: [AuthGuard]
   },
-
-  {
+{
     path: 'asignacion-ruta',
-    component: AsignacionRuta
-  },
+    component: AsignacionRuta,
+    canActivate: [AuthGuard]
+}, 
 
   {
     path:'consultar-sucursales',

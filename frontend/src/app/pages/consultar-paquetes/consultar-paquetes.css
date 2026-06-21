@@ -106,31 +106,88 @@ button:hover{
     margin-top: 20px;
 }
 
-.btn-volver{
-    display: inline-block;
-    margin-top: 20px;
-    padding: 14px 22px;
-    background: linear-gradient(135deg, #20bf6b, #26de81);
-    color: white !important;
-    text-decoration: none !important;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
+
 
 .btn-volver:hover{
     transform: translateY(-2px);
     box-shadow: 0 8px 15px rgba(38,222,129,0.3);
 }
-
 @keyframes aparecer{
     from{
         opacity: 0;
         transform: translateY(20px);
     }
+
     to{
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.btn-volver{
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: #3867d6;
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btn-volver:hover{
+    background-color: #274b9f;
+}
+/* consultar-paquete.css - Agregar estos estilos */
+
+.contador {
+    text-align: right;
+    padding: 10px;
+    color: #666;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 16px;
+}
+
+.no-results p {
+    margin-bottom: 15px;
+}
+
+.btn-recargar {
+    background: #17a2b8;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-recargar:hover {
+    background: #138496;
+}
+
+/* Debug info - opcional, para ver datos */
+.debug-info {
+    background: #f8f9fa;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border-left: 4px solid #007bff;
+    font-size: 13px;
+}
+
+.debug-info p {
+    margin: 4px 0;
+}
+
+.debug-info strong {
+    color: #333;
 }

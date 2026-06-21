@@ -1,5 +1,9 @@
 package com.sv.enviafacil.package_delivery_system.model;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.sv.enviafacil.package_delivery_system.model.enums.EstadoPaquete;
 
 public class Paquete {
@@ -9,10 +13,16 @@ public class Paquete {
     private int peso;
     private String descripcion;
     private InformacionDeEnvio envio;
+    private int cantidad;
+    private BigDecimal precioUnit;
     private Itinerario itinerario;
     private Cliente remitente;
     private Cliente destinatario;
     private static int ultimoId = 0;
+    private Usuario usuarioRegistro;
+    //PARA LOS PUNTOS DE TRANSITO/PAQUETE
+    private List<PuntoDeTransito> puntosDeTransito = new ArrayList<PuntoDeTransito>();
+    private Sucursal sucursalActual;
 
     /**
      * Constructor para crear un nuevo paquete
@@ -20,25 +30,30 @@ public class Paquete {
      * @param peso Peso en kg
      * @param descripcion Descripción del contenido
      */
-    public Paquete(EstadoPaquete estado, int peso, String descripcion) {
+    public Paquete(EstadoPaquete estado, int peso, String descripcion, BigDecimal precioUnit, int cantidad) {
         super();
         this.id = Paquete.generarNuevoUltimoId();
         this.estado = estado;
         this.peso = peso;
         this.descripcion = descripcion;
+        this.precioUnit = precioUnit;
+        this.cantidad = cantidad;
     }
 
     /**
      * Constructor completo
      */
     public Paquete(EstadoPaquete estado, int peso, String descripcion, 
-                   Cliente remitente, Cliente destinatario) {
+                   Cliente remitente, Cliente destinatario, BigDecimal precioUnit, int cantidad) {
         this.id = Paquete.generarNuevoUltimoId();
         this.estado = estado;
         this.peso = peso;
         this.descripcion = descripcion;
         this.remitente = remitente;
         this.destinatario = destinatario;
+        this.precioUnit = precioUnit;
+        this.cantidad = cantidad;
+       
     }
 
     private static int generarNuevoUltimoId() {
@@ -48,6 +63,29 @@ public class Paquete {
     // Getters y Setters
     public int getId() {
         return id;
+    }
+    
+    public List<PuntoDeTransito> getPuntosDeTransito() {
+        return puntosDeTransito;
+    }
+
+    public void setPuntosDeTransito(List<PuntoDeTransito> puntosDeTransito) {
+        this.puntosDeTransito = puntosDeTransito;
+    }
+
+    public void agregarPuntoDeTransito(PuntoDeTransito punto) {
+        if (this.puntosDeTransito == null) {
+            this.puntosDeTransito = new ArrayList<>();
+        }
+        this.puntosDeTransito.add(punto);
+    }
+
+    public Sucursal getSucursalActual() {
+        return sucursalActual;
+    }
+
+    public void setSucursalActual(Sucursal sucursalActual) {
+        this.sucursalActual = sucursalActual;
     }
 
     public void setId(int id) {
@@ -117,8 +155,33 @@ public class Paquete {
     public static void setUltimoId(int ultimoId) {
         Paquete.ultimoId = ultimoId;
     }
+    
+    public int getCantidad() {
+		return cantidad;
+	}
 
-    @Override
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
+
+	public BigDecimal getPrecioUnit() {
+		return precioUnit;
+	}
+
+	public void setPrecioUnit(BigDecimal precioUnit) {
+		this.precioUnit = precioUnit;
+	}
+	// Getters y Setters
+	public Usuario getUsuarioRegistro() {
+	    return usuarioRegistro;
+	}
+
+	public void setUsuarioRegistro(Usuario usuarioRegistro) {
+	    this.usuarioRegistro = usuarioRegistro;
+	}
+
+
+	@Override
     public String toString() {
         return "Paquete{" +
                 "id=" + id +

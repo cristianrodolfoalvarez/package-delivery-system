@@ -1,31 +1,46 @@
+<!-- login.html -->
 <div class="login-container">
-
     <div class="login-box">
-
         <h1>EnviaFacil</h1>
-
         <h3>Inicio de Sesión</h3>
+
+        @if(mensaje){
+            <div class="alert error" (click)="limpiarMensaje()">
+                {{ mensaje }}
+            </div>
+        }
 
         <label>Usuario</label>
         <input
             type="text"
             [(ngModel)]="usuario"
-            placeholder="Ingrese usuario">
+            placeholder="Ingrese usuario"
+            (input)="limpiarMensaje()">
 
         <label>Contraseña</label>
         <input
             type="password"
-            [(ngModel)]="password"
-            placeholder="Ingrese contraseña">
+            [(ngModel)]="contrasena"
+            placeholder="Ingrese contraseña"
+            (input)="limpiarMensaje()"
+            (keyup.enter)="iniciarSesion()">
 
-       <button type="button" (click)="iniciarSesion()">
-    Iniciar Sesion   
-</button>
+        <button (click)="iniciarSesion()" [disabled]="isLoading">
+            @if(isLoading){
+                <span>Cargando...</span>
+            } @else {
+                <span>Iniciar Sesión</span>
+            }
+        </button>
 
-        <p class="error">
-            {{ mensaje }}
-        </p>
-
+        <!-- Información de usuarios de prueba -->
+        <div class="info-prueba">
+            <p>Usuarios de prueba:</p>
+            <ul>
+                <li><strong>admin</strong> / admin123</li>
+                <li><strong>gerente</strong> / gerente123</li>
+                <li><strong>empleado</strong> / empleado123</li>
+            </ul>
+        </div>
     </div>
-
 </div>
