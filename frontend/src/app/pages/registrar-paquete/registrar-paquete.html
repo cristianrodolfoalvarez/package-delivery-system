@@ -1,6 +1,37 @@
 <div class="paquete-container">
     <h1>Registro de Paquete</h1>
 
+    <!-- Esta sección permite buscar un paquete ya registrado para corregir datos -->
+<div class="buscar-paquete">
+
+    <h3>Consultar / Editar Paquete</h3>
+
+    <label>ID del Paquete</label>
+
+    <div class="busqueda">
+
+        <!-- Aquí escribo el ID del paquete que deseo consultar -->
+        <input
+            type="number"
+            placeholder="Ingrese ID del paquete"
+            #idPaqueteBuscar>
+
+        <!-- Al buscar se cargarán los datos del paquete en el formulario -->
+        <button
+            type="button"
+            (click)="buscarPaquete(idPaqueteBuscar.value)">
+            Buscar
+        </button>
+
+    </div>
+
+</div>
+
+    <!--SE AGREGO DE ULTIMO ESTE CAMBIO -->
+
+
+<hr>
+
     <!-- Mensajes de éxito y error -->
     @if(successMessage){
         <div class="alert success">
@@ -129,9 +160,7 @@
                 }
             </button>
             
-            <button type="button" class="btn-volver" (click)="volverInicio()">
-                Volver al Inicio
-            </button>
+            
         </div>
     </form>
 

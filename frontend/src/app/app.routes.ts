@@ -7,6 +7,7 @@ import { ConsultarPaquetes } from './pages/consultar-paquetes/consultar-paquetes
 import { Empleados } from './pages/empleados/empleados';
 import { AsignacionRuta } from './pages/asignacion-ruta/asignacion-ruta';
 import { Login } from './pages/login/login';
+import { ConsultarSucursales } from './pages/consultar-sucursales/consultar-sucursales';
 
 export const routes: Routes = [
 
@@ -53,6 +54,12 @@ export const routes: Routes = [
   {
     path: 'asignacion-ruta',
     component: AsignacionRuta
-  }
+  },
 
+  {
+    path:'consultar-sucursales',
+    component: ConsultarSucursales
+}
+
+  
 ];

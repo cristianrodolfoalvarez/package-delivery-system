@@ -9,7 +9,7 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angula
   templateUrl: './registrar-paquete.html',
   styleUrl: './registrar-paquete.css',
 })
-<<<<<<< HEAD
+
 export class RegistrarPaquete implements OnInit {
   // Signals para valores que se actualizan automáticamente
   remitenteSeleccionado: WritableSignal<string> = signal('');
@@ -259,6 +259,17 @@ export class RegistrarPaquete implements OnInit {
     this.successMessage = '';
     this.errorMessage = '';
     this.isLoading = false;
+  }
+
+  // Este método permitirá buscar un paquete por su ID
+  buscarPaquete(id: string) {
+
+    // Por ahora solo verifico que el ID se esté enviando correctamente
+    console.log('Buscando paquete con ID:', id);
+
+    // Más adelante aquí se llamará al backend para traer la información
+    // y llenar automáticamente el formulario para editarlo
+
   }
 
   volverInicio() {

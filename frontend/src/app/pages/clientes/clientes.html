@@ -4,6 +4,31 @@
 
     <form>
 
+        <!-- Sección para buscar un cliente existente y editarlo -->
+        <div class="buscar-cliente">
+
+            <!-- Título de la búsqueda -->
+            <h3>Consultar Cliente</h3>
+
+            <!-- Campo donde se escribe el ID del cliente -->
+            <input
+                type="number"
+                [(ngModel)]="idBuscar"
+                name="idBuscar"
+                placeholder="Ingrese ID del cliente">
+
+            <!-- Botón para buscar el cliente -->
+            <button
+                type="button"
+                class="btn-buscar"
+                (click)="buscarCliente()">
+                Buscar
+            </button>
+
+        </div>
+
+        <!-- Datos del cliente -->
+
         <label>Nombres</label>
         <input type="text" placeholder="Ingrese nombres">
 
@@ -22,12 +47,23 @@
         <label>Dirección</label>
         <textarea rows="3"></textarea>
 
+        <!-- Este botón sirve para guardar un cliente nuevo -->
         <button type="submit">
             Guardar Cliente
         </button>
+
+        <!-- Este botón servirá para actualizar un cliente encontrado -->
+        <button
+            type="button"
+            class="btn-actualizar">
+            Actualizar Cliente
+        </button>
+
+        <!-- Regresar al menú principal -->
         <a href="/inicio" class="btn-volver">
-    Volver al Menú Principal
-</a>
+            Volver al Menú Principal
+        </a>
+
     </form>
 
 </div>

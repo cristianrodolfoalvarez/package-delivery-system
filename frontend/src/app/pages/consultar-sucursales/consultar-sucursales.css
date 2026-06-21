@@ -1,0 +1,78 @@
+/* Contenedor principal */
+.consulta-container{
+    width:90%;
+    max-width:1400px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Título principal */
+.consulta-container h1{
+    text-align:center;
+    color:#1f2f4a;
+    margin-bottom:25px;
+}
+
+/* Área de búsqueda */
+.busqueda{
+    display:flex;
+    gap:10px;
+    margin-bottom:25px;
+}
+
+/* Campo de búsqueda */
+.busqueda input{
+    flex:1;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+/* Botón buscar */
+.busqueda button{
+    background:#2f63e0;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+/* Tabla de sucursales */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+/* Encabezados */
+th{
+    background:#1f2f4a;
+    color:white;
+    padding:12px;
+}
+
+/* Celdas */
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+/* Efecto al pasar el mouse */
+tr:hover{
+    background:#f5f7fb;
+}
+
+/* Botón volver */
+.btn-volver{
+    display:inline-block;
+    margin-top:20px;
+    background:#1f2f4a;
+    color:white;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:8px;
+}
