@@ -3,7 +3,7 @@ package com.sv.enviafacil.package_delivery_system.model;
 import com.sv.enviafacil.package_delivery_system.utils.IdGenerator;
 
 public class Cliente {
-	private final int id;
+	private int id;
 	private String correo;
 	private String nombres;
 	private String apellidos;
@@ -61,6 +61,9 @@ public class Cliente {
 	}
 	public int getId() {
 		return id;
+	}
+	public void setId(int id) {
+	    this.id = id;
 	}
 
 	public boolean isActivo() {

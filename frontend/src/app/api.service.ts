@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Sucursal } from './models/sucursal.model';
 import { Rol } from './models/rol.model';
 import { Paquete } from './models/paquete.model';
+import { Cliente, ClienteCreateRequest } from './models/cliente.model';
 
 export interface PaqueteRequest {
   remitenteDUIOTelefono: string;
@@ -36,6 +37,15 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 // api.service.ts - Agregar estos métodos
 
+public crearCliente(cliente: ClienteCreateRequest): Observable<Cliente> {
+    console.log('Creando cliente:', cliente);
+    return this.http.post<Cliente>(`${this.APIURL}/clientes`, cliente);
+}
+
+public obtenerTodosClientes(): Observable<Cliente[]> {
+    console.log('Obteniendo todos los clientes...');
+    return this.http.get<Cliente[]>(`${this.APIURL}/clientes/todos`);
+}
 public obtenerTodosLosPaquetes(): Observable<Paquete[]> {
     console.log('Obteniendo todos los paquetes...');
     return this.http.get<Paquete[]>(`${this.APIURL}/paquetes/todos`);
